@@ -133,10 +133,11 @@ a {
 	color:grey;
 }
 
+a:visited{
+	color:grey;
+} 
+
 a:hover{
 	color:grey;
 }
 
-a:visited{
-	color:grey;
-}
