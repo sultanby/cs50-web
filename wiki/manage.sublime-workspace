@@ -1,0 +1,296 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"border",
+				"border-style\tproperty"
+			],
+			[
+				"margin",
+				"margin-top\tproperty"
+			],
+			[
+				"back",
+				"background-color\tproperty"
+			],
+			[
+				"wid",
+				"width\tproperty"
+			],
+			[
+				"max",
+				"max-width\tproperty"
+			],
+			[
+				"wi",
+				"width\tproperty"
+			],
+			[
+				"pos",
+				"position\tproperty"
+			],
+			[
+				"text-or",
+				"text-orientation\tproperty"
+			],
+			[
+				"text",
+				"text-align\tproperty"
+			],
+			[
+				"di",
+				"div\tTag"
+			],
+			[
+				"for",
+				"form-control"
+			],
+			[
+				"margi",
+				"margin-top\tproperty"
+			],
+			[
+				"inc",
+				"include"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 359.0,
+		"last_filter": "insta",
+		"selected_items":
+		[
+			[
+				"insta",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 521.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/macbook/Documents/GitHub/codewars/codewars/autocomplete.py",
+		"/Users/macbook/Documents/GitHub/codewars/codewars/remove_the_minimum.py",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/newyear/templates/newyear/index.html",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/lecture3/settings.py",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/lecture3/urls.py",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/tasks/urls.py",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/newyear/urls.py",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/newyear/views.py",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/newyear/static/newyear/styles.css",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/hello/templates/hello/index.html",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/hello/urls.py",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/hello/templates/hello/greet.html",
+		"/Users/macbook/Documents/GitHub/cs50-web/lecture3/hello/views.py",
+		"/Users/macbook/Documents/GitHub/cs50-web/web50/projects/2020/x/search/styles.css",
+		"/Users/macbook/Documents/GitHub/codewars/codewars/is_integer_array.py",
+		"/Users/macbook/Documents/GitHub/codewars/codewars/who_likes_it.py",
+		"/Users/macbook/Documents/GitHub/codewars/codewars/the_vowel_code.py",
+		"/Users/macbook/Documents/GitHub/codewars/codewars/square.py",
+		"/Users/macbook/Documents/GitHub/cs50-web/week0/search/images.html",
+		"/Users/macbook/Documents/GitHub/cs50-web/week0/search/index.html",
+		"/Users/macbook/Documents/GitHub/cs50-web/week0/search/advanced-search.html",
+		"/Users/macbook/Documents/GitHub/cs50-web/week0/search/styles.css",
+		"/Users/macbook/Documents/GitHub/cs50-web/first-week/search/index.html",
+		"/Users/macbook/Documents/GitHub/codewars/codewars/calculating_with_functions.py",
+		"/Users/macbook/Documents/GitHub/codewars/codewars/format_a_string_of_names.py",
+		"/Users/macbook/Documents/GitHub/codewars/codewars/IPv6_to_int32.py",
+		"/Users/macbook/Documents/GitHub/codewars/codewars/vowel_count.py",
+		"/Users/macbook/Documents/GitHub/my-homepage/sultanby.github.io/cven.html",
+		"/Users/macbook/Documents/GitHub/my-homepage/sultanby.github.io/cvcz.html",
+		"/Users/macbook/Documents/GitHub/my-homepage/sultanby.github.io/index.html",
+		"/Users/macbook/Documents/GitHub/my-homepage/sultanby.github.io/czech.html",
+		"/Users/macbook/Documents/GitHub/find_the_odd.py",
+		"/Users/macbook/Documents/GitHub/square.py",
+		"/Users/macbook/Documents/GitHub/remove_the_minimum.py",
+		"/Users/macbook/Documents/GitHub/list_filtering.py",
+		"/Users/macbook/Documents/GitHub/vowel_count.py",
+		"/Users/macbook/Documents/GitHub/find_the_stray_number.py",
+		"/Users/macbook/Documents/GitHub/detect_pangram.py",
+		"/Users/macbook/Documents/GitHub/string_end.py",
+		"/Users/macbook/Documents/GitHub/Sum_of_all_the_multiples.py",
+		"/Users/macbook/Documents/GitHub/Count_characters.py",
+		"/Users/macbook/Documents/GitHub/Break_camelCase.py",
+		"/Users/macbook/Documents/GitHub/Maximum_subarray_sum.py",
+		"/Users/macbook/Documents/GitHub/Maximum_Length_Difference.py",
+		"/Users/macbook/Documents/GitHub/Duplicate_Encoder.py",
+		"/Users/macbook/Documents/GitHub/dubstep.py",
+		"/Volumes/Elements/все фото/js/anotherbugmasta on Instagram_files/jquery.js",
+		"/Users/macbook/Downloads/flags.sh",
+		"/Users/macbook/Library/Containers/com.apple.mail/Data/Library/Mail Downloads/30783FFF-7726-4FAC-9FD3-743D07F54989/flags.sh",
+		"/Users/macbook/Downloads/_11e8aef37a1877652d7b666a7f0c27f7_a1.py",
+		"/Users/macbook/Downloads/8ball/8ball.css",
+		"/usr/include/arpa/inet.h",
+		"/Users/macbook/NetBeansProjects/domaci_uloha2/main.c",
+		"/Users/macbook/Downloads/test.c",
+		"/Users/macbook/qrvek2.c",
+		"/Users/macbook/function.h",
+		"/Users/macbook/function.c",
+		"/Users/macbook/qrvek.c",
+		"/Users/macbook/Downloads/p1/nsd.c",
+		"/Volumes/AdobePhotoshop18.1.1-mul/Install.app/Contents/Resources/content.js",
+		"/Users/macbook/Downloads/impression.php",
+		"/Users/macbook/Library/Application Support/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/Users/macbook/Library/Application Support/Sublime Text 3/Packages/Default/Preferences.sublime-settings"
+	],
+	"find":
+	{
+		"height": 39.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 24.0
+	},
+	"input":
+	{
+		"height": 36.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.SublimeLinter":
+	{
+		"height": 0.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "manage.sublime-project",
+	"replace":
+	{
+		"height": 44.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"newyear/urls.py"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 215.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
