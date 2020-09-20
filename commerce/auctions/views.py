@@ -8,7 +8,6 @@ from .models import User
 from .models import User, Listings, Categories
 from django.http import HttpResponseRedirect
 from django.urls import reverse
-from django import forms
 
 def index(request):
     return render(request, "auctions/index.html")
@@ -71,10 +70,13 @@ def new_listing(request):
         description = request.POST["description"]
         starting_bid = request.POST["starting_bid"]
         image_url = request.POST["image_url"]
-        category = request.POST["category.id"]
+        category = request.POST["category"]
+        category_cleaned = Categories.objects.get(category=category)
+        user = request.user
+        print(user)
         new_listing = Listings.objects.create(
-            name_of_listing=listing_name, listing_description=description, starting_bid=starting_bid, image=image_url,
-            listing_category=category)
+            name_of_listing=listing_name, listing_description=description, starting_bid=starting_bid,
+            image=image_url, listing_category=category_cleaned, listings_owner=user)
         new_listing.save()
         return HttpResponseRedirect(reverse("index"))
     else:
