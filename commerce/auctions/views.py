@@ -10,7 +10,12 @@ from django.http import HttpResponseRedirect
 from django.urls import reverse
 
 def index(request):
-    return render(request, "auctions/index.html")
+    if request.method == "GET":
+        listings = Listings.objects.all()
+        print(listings)
+        return render(request, "auctions/index.html", {
+            "listings": listings
+        })
 
 
 def login_view(request):
@@ -86,3 +91,13 @@ def new_listing(request):
             "categories": categories
         })
 
+
+def listing(request):
+    if request.user.is_authenticated:
+        if request.method == "GET":
+            user = request.user
+            listing_name = Listings.objects.get(listings_owner=user.id)
+            print(listing_name)
+            return render(request, 'auctions/listing.html', {
+                "listing_name": listing_name
+            })

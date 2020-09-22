@@ -20,6 +20,11 @@ class Listings(models.Model):
     listings_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     listing_category = models.ForeignKey(Categories, on_delete=models.CASCADE)
 
+    def __str__(self):
+        return f"{self.id}, {self.name_of_listing}, {self.listing_description}," \
+               f"{self.starting_bid}, {self.image}, {self.listings_owner}," \
+               f"{self.listing_category}"
+
 class Bids(models.Model):
     bids_listing = models.ForeignKey(Listings, on_delete=models.CASCADE)
     bids_current_price = models.PositiveIntegerField(max_length=200)

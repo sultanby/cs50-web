@@ -1,0 +1,23 @@
+{% extends "auctions/layout.html" %}
+
+{% block body %}
+
+    <h2> Auctions Listing</h2>
+
+    {% if user.is_authenticated %}
+
+        <form action="{% url 'listing' %}" method="get">
+            {% csrf_token %}
+            <ul>
+                <li>Name of listing: {{ listing_name.name_of_listing }}</li>
+                <li>Description: {{ listing_name.listing_description }}</li>
+                <li>Starting bid: {{ listing_name.starting_bid }} $</li>
+                <li>Image:<br> <img src="{{listing_name.image}}"> </li>
+            </ul>
+        </form>
+
+    {% else %}
+        Already have an account? <a href="{% url 'login' %}">Log In here.</a>
+    {% endif %}
+
+{% endblock %}

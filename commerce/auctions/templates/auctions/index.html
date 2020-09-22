@@ -3,5 +3,18 @@
 {% block body %}
     <h2>Active Listings</h2>
 
-    TODO
+    <div>
+        {% if user.is_authenticated %}
+            {% csrf_token %}
+            {% for listing in listings %}
+                <ul>
+                    <li>Image:<br> <img src="{{ listing.image }}"> </li>
+                    <li>Name of listing: {{ listing.name_of_listing }}</li>
+                </ul>
+            {% endfor %}
+        {% else %}
+            Not signed in.
+        {% endif %}
+    </div>
+
 {% endblock %}
