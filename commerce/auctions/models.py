@@ -3,7 +3,7 @@ from django.db import models
 
 
 class User(AbstractUser):
-    pass
+    listings_watchlist = models.ManyToManyField('Listings', related_name='Watchlist')
 
 class Categories(models.Model):
     category = models.CharField(max_length=64)
@@ -21,14 +21,18 @@ class Listings(models.Model):
     listing_category = models.ForeignKey(Categories, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"{self.id}, {self.name_of_listing}, {self.listing_description}," \
-               f"{self.starting_bid}, {self.image}, {self.listings_owner}," \
-               f"{self.listing_category}"
+        return f"id of the listing: {self.id}, name: {self.name_of_listing}, description: {self.listing_description}," \
+               f" starting price: {self.starting_bid}, image: {self.image}, owner: {self.listings_owner}," \
+               f" category: {self.listing_category}"
 
 class Bids(models.Model):
     bids_listing = models.ForeignKey(Listings, on_delete=models.CASCADE)
     bids_current_price = models.PositiveIntegerField(max_length=200)
     last_bidder = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"id is {self.id}, on listing: {self.bids_listing}, current bid is {self.bids_current_price}," \
+               f"made by: {self.last_bidder}"
 
 class Comments(models.Model):
     commentator = models.ForeignKey(User, on_delete=models.CASCADE)

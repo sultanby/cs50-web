@@ -8,8 +8,8 @@
             {% csrf_token %}
             {% for listing in listings %}
                 <ul>
-                    <li>Image:<br> <img src="{{ listing.image }}"> </li>
-                    <li>Name of listing: {{ listing.name_of_listing }}</li>
+                    <li><br> <img src="{{ listing.image }}"> </li>
+                    <li><a href="{% url 'listing' listing.pk %}">{{ listing.name_of_listing }}</a></li>
                 </ul>
             {% endfor %}
         {% else %}

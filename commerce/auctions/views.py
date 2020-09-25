@@ -2,11 +2,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.urls import reverse
-
-from .models import User
-from .models import User, Listings, Categories
-from django.http import HttpResponseRedirect
+from .models import User, Listings, Categories, Bids
 from django.urls import reverse
 
 def index(request):
@@ -78,7 +74,6 @@ def new_listing(request):
         category = request.POST["category"]
         category_cleaned = Categories.objects.get(category=category)
         user = request.user
-        print(user)
         new_listing = Listings.objects.create(
             name_of_listing=listing_name, listing_description=description, starting_bid=starting_bid,
             image=image_url, listing_category=category_cleaned, listings_owner=user)
@@ -92,12 +87,22 @@ def new_listing(request):
         })
 
 
-def listing(request):
+def listing(request, listing_id):
     if request.user.is_authenticated:
         if request.method == "GET":
-            user = request.user
-            listing_name = Listings.objects.get(listings_owner=user.id)
-            print(listing_name)
+            listing = Listings.objects.get(pk=listing_id)
+            print(listing_id)
             return render(request, 'auctions/listing.html', {
-                "listing_name": listing_name
+                "listing": listing
             })
+
+def add_to_watchlist(request, listing_id):
+    if request.method == "POST":
+        user = request.user
+        listing = Listings.objects.get(pk=listing_id)
+        new_add = user.listings_watchlist.add(listing)
+        new_add.save()
+        return HttpResponseRedirect(reverse("listing"))
+    else: pass
+
+
