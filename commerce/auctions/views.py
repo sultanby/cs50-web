@@ -96,13 +96,14 @@ def listing(request, listing_id):
                 "listing": listing
             })
 
-def add_to_watchlist(request, listing_id):
+def watchlist(request, listing_id, user):
     if request.method == "POST":
         user = request.user
         listing = Listings.objects.get(pk=listing_id)
-        new_add = user.listings_watchlist.add(listing)
-        new_add.save()
-        return HttpResponseRedirect(reverse("listing"))
+        user.listings_watchlist.add(listing)
+        user.save()
+        watchlist = user.listings_watchlist.all()
+        return render(request, "auctions/watchlist.html", {
+            "listings": watchlist
+        })
     else: pass
-
-
