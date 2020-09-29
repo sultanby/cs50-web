@@ -90,20 +90,29 @@ def new_listing(request):
 def listing(request, listing_id):
     if request.user.is_authenticated:
         if request.method == "GET":
+            is_in_watchlist = request.user.listings_watchlist.filter(pk=listing_id).exists()
+            print(is_in_watchlist)
             listing = Listings.objects.get(pk=listing_id)
-            print(listing_id)
             return render(request, 'auctions/listing.html', {
-                "listing": listing
+                "listing": listing,
+                "is_in_watchlist": is_in_watchlist
             })
 
-def watchlist(request, listing_id, user):
+def watchlist(request, listing_id):
+    user = request.user
+    watchlist = user.listings_watchlist.all()
     if request.method == "POST":
-        user = request.user
         listing = Listings.objects.get(pk=listing_id)
-        user.listings_watchlist.add(listing)
-        user.save()
-        watchlist = user.listings_watchlist.all()
-        return render(request, "auctions/watchlist.html", {
+        if request.user.listings_watchlist.filter(pk=listing_id).exists():
+            user.listings_watchlist.remove(listing)
+            user.save()
+        else:
+            user.listings_watchlist.add(listing)
+            user.save()
+        return render(request, "auctions/index.html", {
             "listings": watchlist
         })
-    else: pass
+    else:
+        return render(request, "auctions/index.html", {
+            "listings": watchlist
+        })
