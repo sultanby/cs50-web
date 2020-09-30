@@ -116,3 +116,19 @@ def watchlist(request, listing_id):
         return render(request, "auctions/index.html", {
             "listings": watchlist
         })
+
+def bid(request, listing_id):
+    if request.method == "POST":
+        user = request.user
+        listing = Listings.objects.get(pk=listing_id)
+        bids = Bids.objects.all()
+        offer = request.POST["offer"]
+        if offer >= listing.starting_bid and (bids.bids_current_price or offer > bids.bids_current_price):
+            new_bid = Bids.objects.create(
+                bids_listing=listing, bids_current_price=offer, last_bidder=user)
+            new_bid.save()
+            return HttpResponseRedirect(reverse("index"))
+        else: return render(request, "auctions/listing.html", {
+            "listing": listing,
+            "error": True
+        })

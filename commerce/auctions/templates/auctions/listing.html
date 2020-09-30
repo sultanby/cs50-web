@@ -25,6 +25,16 @@
                 {% endif %}
             </button>
         </form>
+        {% if error %}
+            Your bid must be bigger than {{ listing.starting_bid }} and bigger than {{ bids.bids_current_price}}
+        {% endif %}
+        {% if listing.listings_owner != user %}
+            <form action="{% url 'bid' listing.id %}" method="post">
+                {% csrf_token %}
+                {{ form }}
+                <input type = submit value="submit">
+            </form>
+        {% endif %}
     {% else %}
         Already have an account? <a href="{% url 'login' %}">Log In here.</a>
     {% endif %}
