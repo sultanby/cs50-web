@@ -16,22 +16,23 @@ class Listings(models.Model):
     name_of_listing = models.CharField(max_length=64)
     listing_description = models.TextField(blank=True)
     starting_bid = models.PositiveIntegerField()
+    current_bid = models.PositiveIntegerField(null=True)
     image = models.URLField(max_length=200)
     listings_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     listing_category = models.ForeignKey(Categories, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"id of the listing: {self.id}, name: {self.name_of_listing}, description: {self.listing_description}," \
-               f" starting price: {self.starting_bid}, image: {self.image}, owner: {self.listings_owner}," \
+        return f"id of the listing: {self.id}, name: {self.name_of_listing}, "\
+               f" starting price: {self.starting_bid}, current bid: {self.current_bid}, owner: {self.listings_owner}," \
                f" category: {self.listing_category}"
 
 class Bids(models.Model):
     bids_listing = models.ForeignKey(Listings, on_delete=models.CASCADE)
-    bids_current_price = models.PositiveIntegerField(max_length=200)
+    offer = models.PositiveIntegerField(null=True)
     last_bidder = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
-        return f"id is {self.id}, on listing: {self.bids_listing}, current bid is {self.bids_current_price}," \
+        return f"id is {self.id}, on listing: {self.bids_listing}, current offer is {self.offer}," \
                f"made by: {self.last_bidder}"
 
 class Comments(models.Model):

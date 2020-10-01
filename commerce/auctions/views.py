@@ -2,13 +2,14 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
+from django.db.models import Max
+
 from .models import User, Listings, Categories, Bids
 from django.urls import reverse
 
 def index(request):
     if request.method == "GET":
         listings = Listings.objects.all()
-        print(listings)
         return render(request, "auctions/index.html", {
             "listings": listings
         })
@@ -91,7 +92,6 @@ def listing(request, listing_id):
     if request.user.is_authenticated:
         if request.method == "GET":
             is_in_watchlist = request.user.listings_watchlist.filter(pk=listing_id).exists()
-            print(is_in_watchlist)
             listing = Listings.objects.get(pk=listing_id)
             return render(request, 'auctions/listing.html', {
                 "listing": listing,
@@ -121,14 +121,22 @@ def bid(request, listing_id):
     if request.method == "POST":
         user = request.user
         listing = Listings.objects.get(pk=listing_id)
-        bids = Bids.objects.all()
-        offer = request.POST["offer"]
-        if offer >= listing.starting_bid and (bids.bids_current_price or offer > bids.bids_current_price):
+        print(listing.starting_bid)
+        offer = int(request.POST["offer"])
+        print(offer)
+        last_bidder = Bids.objects.filter(bids_listing=listing_id).order_by('-offer')[0]
+        print(last_bidder.last_bidder)
+        if offer >= listing.starting_bid and (listing.current_bid is None or offer > listing.current_bid):
             new_bid = Bids.objects.create(
-                bids_listing=listing, bids_current_price=offer, last_bidder=user)
+                bids_listing=listing, offer=offer, last_bidder=user)
             new_bid.save()
+            listing.current_bid = offer
+            listing.save()
+            print(last_bidder)
             return HttpResponseRedirect(reverse("index"))
-        else: return render(request, "auctions/listing.html", {
-            "listing": listing,
-            "error": True
+        else:
+            return render(request, "auctions/listing.html", {
+                "last_bidder": last_bidder,
+                "listing": listing,
+                "error": True
         })

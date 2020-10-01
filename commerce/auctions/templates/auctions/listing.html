@@ -25,13 +25,14 @@
                 {% endif %}
             </button>
         </form>
+        last bid is: {{ listing.current_bid| default:listing.starting_bid}} $ made by: {{ last_bidder.last_bidder }}
         {% if error %}
-            Your bid must be bigger than {{ listing.starting_bid }} and bigger than {{ bids.bids_current_price}}
+            Your bid must be bigger than {{ listing.current_bid| default:listing.starting_bid}} $
         {% endif %}
         {% if listing.listings_owner != user %}
             <form action="{% url 'bid' listing.id %}" method="post">
                 {% csrf_token %}
-                {{ form }}
+                <input class="form-control" type="number" name="offer" placeholder="New bid">
                 <input type = submit value="submit">
             </form>
         {% endif %}
