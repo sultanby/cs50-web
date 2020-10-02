@@ -15,6 +15,7 @@
                 <li>Image:<br> <img src="{{listing.image}}"> </li>
             </ul>
         </form>
+
         <form action="{% url 'watchlist' listing.id %}" method="POST">
             {% csrf_token %}
             <button type="submit">
@@ -25,6 +26,7 @@
                 {% endif %}
             </button>
         </form>
+
         last bid is: {{ listing.current_bid| default:listing.starting_bid}} $ made by: {{ last_bidder.last_bidder }}
         {% if error %}
             Your bid must be bigger than {{ listing.current_bid| default:listing.starting_bid}} $
@@ -36,6 +38,20 @@
                 <input type = submit value="submit">
             </form>
         {% endif %}
+
+        <form action="{% url 'comment' listing.id %}" method="post">
+            {% csrf_token %}
+            <textarea class="form-control" type="text" name="comment" placeholder="Place your comment here"></textarea>
+            <input type = submit value="submit">
+        </form>
+        {% for comment in all_comments %}
+            <br>
+            author: {{comment.commentator}}
+            comment: {{comment.comment}}
+            at: {{comment.comment_time}}
+            <br>
+        {% endfor %}
+
     {% else %}
         Already have an account? <a href="{% url 'login' %}">Log In here.</a>
     {% endif %}

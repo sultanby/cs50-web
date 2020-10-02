@@ -1,5 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
+from django.utils import timezone
 
 
 class User(AbstractUser):
@@ -39,4 +40,4 @@ class Comments(models.Model):
     commentator = models.ForeignKey(User, on_delete=models.CASCADE)
     listing_commented = models.ForeignKey(Listings, on_delete=models.CASCADE)
     comment = models.TextField(blank=True)
-    comment_time = models.DateTimeField
+    comment_time = models.DateTimeField(default=timezone.now)
