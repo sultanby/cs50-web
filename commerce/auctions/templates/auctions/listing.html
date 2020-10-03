@@ -13,8 +13,26 @@
                 <li>Description: {{ listing.listing_description }}</li>
                 <li>Starting bid: {{ listing.starting_bid }} $</li>
                 <li>Image:<br> <img src="{{listing.image}}"> </li>
+                <li>Owner:
+                {% if my_listing %}
+                    YOU!
+                {% else %}
+                    {{ listing.listings_owner }}
+                {% endif %}</li>
             </ul>
         </form>
+
+        {% if my_listing %}
+            {% if listing.is_closed == False %}
+            <form method="POST" action="{% url 'close_listing' listing.id %}">
+                {% csrf_token %}
+                <button type = submit value="submit">
+                    close this listing
+                </button>
+            </form>
+            {% endif %}
+        {% endif %}
+
 
         <form action="{% url 'watchlist' listing.id %}" method="POST">
             {% csrf_token %}
@@ -27,16 +45,32 @@
             </button>
         </form>
 
-        last bid is: {{ listing.current_bid| default:listing.starting_bid}} $ made by: {{ last_bidder.last_bidder }}
-        {% if error %}
-            Your bid must be bigger than {{ listing.current_bid| default:listing.starting_bid}} $
-        {% endif %}
-        {% if listing.listings_owner != user %}
-            <form action="{% url 'bid' listing.id %}" method="post">
-                {% csrf_token %}
-                <input class="form-control" type="number" name="offer" placeholder="New bid">
-                <input type = submit value="submit">
-            </form>
+        {% if listing.is_closed == False %}
+            last bid is: {{ listing.current_bid| default:listing.starting_bid}} $ made by: {{ last_bidder.last_bidder }}
+            {% if error %}
+                Your bid must be bigger than {{ listing.current_bid| default:listing.starting_bid}} $
+            {% endif %}
+            {% if listing.listings_owner != user %}
+                <form action="{% url 'bid' listing.id %}" method="post">
+                    {% csrf_token %}
+                    <input class="form-control" type="number" name="offer" placeholder="New bid">
+                    <input type = submit value="submit">
+                </form>
+            {% endif %}
+        {% else %}
+            {% if my_listing %}
+                {% if last_bidder.last_bidder %}
+                    Your listing goes to {{ last_bidder.last_bidder }}
+                {% else %}
+                    No buyers
+                {% endif %}
+            {% else %}
+                {% if user == last_bidder.last_bidder %}
+                    You won this listing!!
+                {% else %}
+                    Winner is {{ last_bidder.last_bidder }}
+                {% endif %}
+            {% endif %}
         {% endif %}
 
         <form action="{% url 'comment' listing.id %}" method="post">

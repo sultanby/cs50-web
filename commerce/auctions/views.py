@@ -2,14 +2,13 @@ from django.contrib.auth import authenticate, login, logout
 from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
-from django.db.models import Max
 
 from .models import User, Listings, Categories, Bids, Comments
 from django.urls import reverse
 
 def index(request):
     if request.method == "GET":
-        listings = Listings.objects.all()
+        listings = Listings.objects.filter(is_closed=False)
         return render(request, "auctions/index.html", {
             "listings": listings
         })
@@ -90,17 +89,28 @@ def new_listing(request):
 
 def listing(request, listing_id):
     if request.user.is_authenticated:
+        last_bidder = Bids.objects.filter(bids_listing=listing_id).order_by('-offer').first()
+        all_comments = Comments.objects.filter(listing_commented=listing_id)
+        is_in_watchlist = request.user.listings_watchlist.filter(pk=listing_id).exists()
+        listing = Listings.objects.get(pk=listing_id)
+        my_listing = request.user == listing.listings_owner
         if request.method == "GET":
-            last_bidder = Bids.objects.filter(bids_listing=listing_id).order_by('-offer').first()
-            all_comments = Comments.objects.filter(listing_commented=listing_id)
-            is_in_watchlist = request.user.listings_watchlist.filter(pk=listing_id).exists()
-            listing = Listings.objects.get(pk=listing_id)
             return render(request, 'auctions/listing.html', {
                 "listing": listing,
                 "is_in_watchlist": is_in_watchlist,
                 "last_bidder": last_bidder,
-                "all_comments": all_comments
+                "all_comments": all_comments,
+                "my_listing" : my_listing
             })
+        else:
+            return render(request, 'auctions/listing.html', {
+                "listing": listing,
+                "is_in_watchlist": is_in_watchlist,
+                "last_bidder": last_bidder,
+                "all_comments": all_comments,
+                "my_listing" : my_listing
+            })
+
 
 def watchlist(request, listing_id):
     user = request.user
@@ -122,39 +132,40 @@ def watchlist(request, listing_id):
         })
 
 def bid(request, listing_id):
+    last_bidder = Bids.objects.filter(bids_listing=listing_id).order_by('-offer').first()
     if request.method == "POST":
         user = request.user
         listing = Listings.objects.get(pk=listing_id)
         offer = int(request.POST["offer"])
-        last_bidder = Bids.objects.filter(bids_listing=listing_id).order_by('-offer').first()
-        print(last_bidder)
         if offer >= listing.starting_bid and (listing.current_bid is None or offer > listing.current_bid):
             new_bid = Bids.objects.create(
                 bids_listing=listing, offer=offer, last_bidder=user)
             new_bid.save()
             listing.current_bid = offer
             listing.save()
-            print(last_bidder)
-            return render(request, "auctions/listing.html", {
-                "last_bidder": last_bidder,
-                "listing": listing
-            })
+            HttpResponseRedirect(reverse("listing", args=(listing_id,)))
         else:
             return render(request, "auctions/listing.html", {
                 "last_bidder": last_bidder,
                 "listing": listing,
                 "error": True
             })
+    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
 
 def comment(request, listing_id):
+    listing = Listings.objects.get(pk=listing_id)
     if request.method == "POST":
         user = request.user
-        listing = Listings.objects.get(pk=listing_id)
-        all_comments = Comments.objects.filter(listing_commented=listing_id)
         comment = request.POST["comment"]
         comment_to_save = Comments(commentator=user, listing_commented=listing, comment=comment)
         comment_to_save.save()
-        return render(request, "auctions/listing.html", {
-            "listing": listing,
-            "all_comments": all_comments
-        })
+        return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+
+def close_listing(request, listing_id):
+    listing = Listings.objects.get(pk=listing_id)
+    user = request.user
+    if request.method == "POST":
+        if listing.listings_owner == user:
+            listing.is_closed = True
+            listing.save()
+    return HttpResponseRedirect(reverse("listing", args=(listing_id,)))

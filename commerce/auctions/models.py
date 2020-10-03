@@ -21,6 +21,7 @@ class Listings(models.Model):
     image = models.URLField(max_length=200)
     listings_owner = models.ForeignKey(User, on_delete=models.CASCADE)
     listing_category = models.ForeignKey(Categories, on_delete=models.CASCADE)
+    is_closed = models.BooleanField(default=False)
 
     def __str__(self):
         return f"id of the listing: {self.id}, name: {self.name_of_listing}, "\
