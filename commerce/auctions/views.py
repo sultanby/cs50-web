@@ -76,6 +76,7 @@ def register(request):
 
 
 def new_listing(request):
+    categories_choosing = Categories.objects.all()
     if request.method == "POST":
         listing_name = request.POST["listing_name"]
         description = request.POST["description"]
@@ -92,10 +93,12 @@ def new_listing(request):
     else:
         categories = Categories.objects.all()
         return render(request, 'auctions/new_listing.html', {
-            "categories": categories
+            "categories": categories,
+            "categories_choosing": categories_choosing
         })
 
 def listing(request, listing_id):
+    categories_choosing = Categories.objects.all()
     if request.user.is_authenticated:
         last_bidder = Bids.objects.filter(bids_listing=listing_id).order_by('-offer').first()
         all_comments = Comments.objects.filter(listing_commented=listing_id)
@@ -116,11 +119,13 @@ def listing(request, listing_id):
                 "is_in_watchlist": is_in_watchlist,
                 "last_bidder": last_bidder,
                 "all_comments": all_comments,
-                "my_listing" : my_listing
+                "my_listing" : my_listing,
+                "categories_choosing": categories_choosing
             })
 
 
 def watchlist(request, listing_id):
+    categories_choosing = Categories.objects.all()
     user = request.user
     watchlist = user.listings_watchlist.all()
     if request.method == "POST":
@@ -132,11 +137,13 @@ def watchlist(request, listing_id):
             user.listings_watchlist.add(listing)
             user.save()
         return render(request, "auctions/index.html", {
-            "listings": watchlist
+            "listings": watchlist,
+            "categories_choosing": categories_choosing
         })
     else:
         return render(request, "auctions/index.html", {
-            "listings": watchlist
+            "listings": watchlist,
+            "categories_choosing": categories_choosing
         })
 
 def bid(request, listing_id):
