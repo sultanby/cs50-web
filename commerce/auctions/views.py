@@ -7,16 +7,25 @@ from .models import User, Listings, Categories, Bids, Comments
 from django.urls import reverse
 
 def index(request):
+    categories_choosing = Categories.objects.all()
     if request.method == "GET":
         listings = Listings.objects.filter(is_closed=False)
         return render(request, "auctions/index.html", {
-            "listings": listings
+            "listings": listings,
+            "categories_choosing": categories_choosing
         })
 
+def chosen_category(request, category):
+    categories_choosing = Categories.objects.all()
+    if request.method == "GET":
+        listings = Listings.objects.filter(listing_category=category, is_closed=False)
+        return render(request, "auctions/index.html", {
+            "listings": listings,
+            "categories_choosing": categories_choosing
+        })
 
 def login_view(request):
     if request.method == "POST":
-
         # Attempt to sign user in
         username = request.POST["username"]
         password = request.POST["password"]
@@ -65,6 +74,7 @@ def register(request):
     else:
         return render(request, "auctions/register.html")
 
+
 def new_listing(request):
     if request.method == "POST":
         listing_name = request.POST["listing_name"]
@@ -81,11 +91,9 @@ def new_listing(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         categories = Categories.objects.all()
-        print(categories)
         return render(request, 'auctions/new_listing.html', {
             "categories": categories
         })
-
 
 def listing(request, listing_id):
     if request.user.is_authenticated:
@@ -169,3 +177,4 @@ def close_listing(request, listing_id):
             listing.is_closed = True
             listing.save()
     return HttpResponseRedirect(reverse("listing", args=(listing_id,)))
+

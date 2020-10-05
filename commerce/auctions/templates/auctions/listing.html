@@ -79,6 +79,7 @@
             <input type = submit value="submit">
         </form>
         {% for comment in all_comments %}
+            {% csrf_token %}
             <br>
             author: {{comment.commentator}}
             comment: {{comment.comment}}
