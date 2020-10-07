@@ -9,19 +9,23 @@
 
         <form action="{% url 'new_listing' %}" method="post">
             {% csrf_token %}
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <input class="form-control" autofocus type="text" name="listing_name" placeholder="Listing title">
             </div>
-            <div class="form-group">
-                <input class="form-control" type="text" name="description" placeholder="Description">
+            <div class="form-group mb-3">
+                <textarea class="form-control" type="text" name="description" placeholder="Description"></textarea>
             </div>
-            <div class="form-group">
-                <input class="form-control" type="number" name="starting_bid" placeholder="Starting bid">
+            <div class="input-group mb-3">
+                <input class="form-control" type="number" name="starting_bid" placeholder="Starting bid" min="1">
+                <div class="input-group-append">
+                    <span class="input-group-text">$</span>
+                    <span class="input-group-text">0.00</span>
+                </div>
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <input class="form-control" type="url" name="image_url" placeholder="Url of image">
             </div>
-            <div class="form-group">
+            <div class="form-group mb-3">
                 <select name="category">
                     {% for category in categories %}
                         <option value="{{ category }}">{{ category }}</option>

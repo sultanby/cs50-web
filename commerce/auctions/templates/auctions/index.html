@@ -7,10 +7,14 @@
         {% if user.is_authenticated %}
             {% csrf_token %}
             {% for listing in listings %}
-                <ul>
-                    <li><br> <img src="{{ listing.image }}"> </li>
-                    <li><a href="{% url 'listing' listing.pk %}">{{ listing.name_of_listing }}</a></li>
-                </ul>
+             <div id="columns">
+                <figure>
+                     <a href="{% url 'listing' listing.pk %}">
+                         <img class="card-img-top" src="{{ listing.image }}" style="max-width:300px;">
+                         <figcaption>{{ listing.name_of_listing }}</figcaption>
+                    </a>
+                </figure>
+             </div>
             {% endfor %}
         {% else %}
             Not signed in.
