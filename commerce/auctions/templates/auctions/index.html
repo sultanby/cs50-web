@@ -6,19 +6,20 @@
     <div>
         {% if user.is_authenticated %}
             {% csrf_token %}
-            {% for listing in listings %}
-             <div id="columns">
-                <figure>
-                     <a href="{% url 'listing' listing.pk %}">
-                         <img class="card-img-top" src="{{ listing.image }}" style="max-width:300px;">
-                         <figcaption>{{ listing.name_of_listing }}</figcaption>
-                    </a>
-                </figure>
-             </div>
-            {% endfor %}
+                <div class="cards" id="columns">
+                    {% for listing in listings %}
+                        <figure>
+                             <a href="{% url 'listing' listing.pk %}">
+                                 <img class="card-img-top" src="{{ listing.image }}">
+                                 <figcaption>{{ listing.name_of_listing }}</figcaption>
+                             </a>
+                        </figure>
+                    {% endfor %}
+                </div>
         {% else %}
             Not signed in.
         {% endif %}
     </div>
 
 {% endblock %}
+
