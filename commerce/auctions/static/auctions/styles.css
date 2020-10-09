@@ -2,59 +2,6 @@ body {
     padding: 10px;
 }
 
-.dropbtn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-}
-
-.navbtn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
-  cursor: pointer;
-  text-decoration:none
-}
-
-.dropdown {
-  position: relative;
-  display: inline-block;
-}
-
-.dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f9f9f9;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
-}
-
-.dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
-}
-
-.dropdown-content a:hover {background-color: #f1f1f1}
-
-.dropdown:hover .dropdown-content {
-  display: block;
-}
-
-.dropdown:hover .dropbtn {
-  background-color: #3e8e41;
-}
-.navbtn:hover {
-  color: white
-}
-
 .card {
   color: white;
   padding: 1rem;
@@ -102,19 +49,6 @@ div#columns figure figcaption {
   line-height: 1.5;
 }
 
-div#columns small {
-  font-size: 1rem;
-  float: right;
-  text-transform: uppercase;
-  color: #aaa;
-}
-
-div#columns small a {
-  color: #666;
-  text-decoration: none;
-  transition: .4s color;
-}
-
 div#columns:hover figure:not(:hover) {
 	opacity: 0.4;
 }
@@ -122,5 +56,12 @@ div#columns:hover figure:not(:hover) {
 @media screen and (max-width: 750px) {
   #columns { column-gap: 0px; }
   #columns figure { width: 100%; }
+}
+
+.sign {
+    position: absolute;
+    right: 0px;
+    width: 200px;
+    padding: 10px;
 }
 
