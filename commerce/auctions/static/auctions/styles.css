@@ -58,10 +58,4 @@ div#columns:hover figure:not(:hover) {
   #columns figure { width: 100%; }
 }
 
-.sign {
-    position: absolute;
-    right: 0px;
-    width: 200px;
-    padding: 10px;
-}
 
