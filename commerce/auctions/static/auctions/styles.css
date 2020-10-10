@@ -58,4 +58,6 @@ div#columns:hover figure:not(:hover) {
   #columns figure { width: 100%; }
 }
 
-
+.bat{
+    padding-bottom: 15px;
+}

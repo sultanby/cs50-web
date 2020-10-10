@@ -2,38 +2,47 @@
 
 {% block body %}
 
-    <h2>Create New Listing</h2>
+    <h2 class="mb-3">Create New Listing</h2>
 
     {% if user.is_authenticated %}
-        Signed in as <strong>{{ user.username }}</strong>.
-
-        <form action="{% url 'new_listing' %}" method="post">
+        <div class="container">
+        <div class="row">
+        <form class="content create col-md-8 offset-md-2 border" action="{% url 'new_listing' %}" method="post">
             {% csrf_token %}
-            <div class="form-group mb-3">
-                <input class="form-control" autofocus type="text" name="listing_name" placeholder="Listing title">
-            </div>
-            <div class="form-group mb-3">
-                <textarea class="form-control" type="text" name="description" placeholder="Description"></textarea>
-            </div>
-            <div class="input-group mb-3">
-                <input class="form-control" type="number" name="starting_bid" placeholder="Starting bid" min="1">
-                <div class="input-group-append">
-                    <span class="input-group-text">$</span>
-                    <span class="input-group-text">0.00</span>
+                <legend class="mb-3">Listing info</legend>
+                <div class="form-group mb-3">
+                    <label for="listing_name">Name of listing: </label>
+                    <input class="form-control" autofocus type="text" id="listing_name" name="listing_name" placeholder="">
                 </div>
-            </div>
-            <div class="form-group mb-3">
-                <input class="form-control" type="url" name="image_url" placeholder="Url of image">
-            </div>
-            <div class="form-group mb-3">
-                <select name="category">
-                    {% for category in categories %}
-                        <option value="{{ category }}">{{ category }}</option>
-                    {% endfor %}
-                </select>
-            </div>
-            <input class="btn btn-primary" type="submit" value="Register">
+                <div class="form-group mb-3">
+                    <label for="description">Description of listing: </label>
+                    <textarea class="form-control" type="text" id="description" name="description" placeholder="max 700 symbols"></textarea>
+                </div>
+                <label for="starting_bid">Starting bid: </label>
+                <div class="input-group mb-3">
+
+                    <input class="form-control" type="number" id="starting_bid" name="starting_bid" placeholder="from 1$ to 999999$" min="1">
+                    <div class="input-group-append">
+                        <span class="input-group-text">$</span>
+                        <span class="input-group-text">0.00</span>
+                    </div>
+                </div>
+                <div class="form-group mb-3">
+                    <label for="image_url">Image url: </label>
+                    <input class="form-control" type="url" id="image_url" name="image_url" placeholder="example: http://a.jpg">
+                </div>
+                <div class="form-group mb-3">
+                    <label for="category">Choose the category of listing: </label>
+                    <select id="category" name="category">
+                        {% for category in categories %}
+                            <option value="{{ category }}">{{ category }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+                <input class="btn btn-primary mb-3" type="submit" value="Register">
         </form>
+        </div>
+        </div>
 
     {% else %}
         Already have an account? <a href="{% url 'login' %}">Log In here.</a>

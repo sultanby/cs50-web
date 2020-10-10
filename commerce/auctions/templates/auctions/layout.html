@@ -13,7 +13,7 @@
         <link href="{% static 'auctions/styles.css' %}" rel="stylesheet">
     </head>
     <body>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light mb-3">
             <a class="navbar-brand" href="#">Auctions</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo01" aria-controls="navbarTogglerDemo01" aria-expanded="false" aria-label="Toggle navigation">
                <span class="navbar-toggler-icon"></span>
@@ -40,32 +40,36 @@
                               {% endfor %}
                           </div>
                     </li>
-                </ul>
-                {% if user.is_authenticated %}
-                    <ul class="navbar-nav">
+                    {% if user.is_authenticated %}
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'new_listing' %}">Create Listing</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'watchlist' user.id %}">Watchlist</a>
                         </li>
-                    </ul>
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item">
-                            <div class="nav-link">
-                                {% if user.is_authenticated %}
-                                    Signed in as <strong>{{ user.username }}</strong>.
-                                {% else %}
-                                    Not signed in.
-                                {% endif %}
-                            </div>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
-                        </li>
-                    </ul>
+                    {% endif %}
+                </ul>
+
+                {% if user.is_authenticated %}
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <div class="nav-link disabled">
+                            {% if user.is_authenticated %}
+                                Signed in as <strong>{{ user.username }}</strong>.
+                            {% endif %}
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
+                    </li>
+                </ul>
                 {% else %}
                     <ul class="navbar-nav ml-auto">
+                        <li>
+                            <div class="nav-link disabled">
+                                Not signed in.
+                            </div>
+                        </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'login' %}">Log In</a>
                         </li>

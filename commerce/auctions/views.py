@@ -12,7 +12,8 @@ def index(request):
         listings = Listings.objects.filter(is_closed=False)
         return render(request, "auctions/index.html", {
             "listings": listings,
-            "categories_choosing": categories_choosing
+            "categories_choosing": categories_choosing,
+            "title": 'Active Listings'
         })
 
 def chosen_category(request, category):
@@ -138,12 +139,14 @@ def watchlist(request, listing_id):
             user.save()
         return render(request, "auctions/index.html", {
             "listings": watchlist,
-            "categories_choosing": categories_choosing
+            "categories_choosing": categories_choosing,
+            "title": "My watchlist"
         })
     else:
         return render(request, "auctions/index.html", {
             "listings": watchlist,
-            "categories_choosing": categories_choosing
+            "categories_choosing": categories_choosing,
+            "title": "My watchlist"
         })
 
 def bid(request, listing_id):

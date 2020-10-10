@@ -1,7 +1,7 @@
 {% extends "auctions/layout.html" %}
 
 {% block body %}
-    <h2>Active Listings</h2>
+    <h2 class="mb-3">{{ title }}</h2>
 
     <div>
         {% if user.is_authenticated %}
