@@ -5,22 +5,42 @@
     <h2 class="mb-3"> Auctions Listing</h2>
 
     {% if user.is_authenticated %}
-
-        <form action="{% url 'listing' listing.id %}" method="post">
-            {% csrf_token %}
-            <ul>
-                <li>Name of listing: {{ listing.name_of_listing }}</li>
-                <li>Description: {{ listing.listing_description }}</li>
-                <li>Starting bid: {{ listing.starting_bid }} $</li>
-                <li>Image:<br> <img src="{{listing.image}}"> </li>
-                <li>Owner:
-                {% if my_listing %}
-                    YOU!
-                {% else %}
-                    {{ listing.listings_owner }}
-                {% endif %}</li>
-            </ul>
-        </form>
+        <div class="container">
+            <div class="row list-project">
+                <form action="{% url 'listing' listing.id %}" method="post">
+                {% csrf_token %}
+                    <div class="col-md-7">
+                        <img src="{{listing.image}}">
+                    </div>
+                    <div class="col-md-5">
+                        <div class="project-info-box mt-0">
+                            <h5>{{ listing.name_of_listing }}</h5>
+                            <p>{{ listing.listing_description }}</p>
+                        </div>
+                        <div class="project-info-box mb-10">
+                            <p><b>OWNER:</b>
+                                {% if my_listing %}
+                                    YOU!
+                                {% else %}
+                                    {{ listing.listings_owner }}
+                                {% endif %}
+                            </p>
+                            <p><b>CATEGORY:</b>{{ listing.listing_category }}</p>
+                            <p><b>STARTING BID:</b>{{ listing.starting_bid }} $</p>
+                        </div>
+                </form>
+                        <form action="{% url 'watchlist' listing.id %}" method="POST">
+                            {% csrf_token %}
+                            <button class="btn btn-primary d-block" type="submit">
+                                {% if is_in_watchlist %}
+                                remove from watchlist
+                                {% else %}
+                                add to watchlist
+                                {% endif %}
+                            </button>
+                        </form>
+            </div>
+        </div>
 
         {% if my_listing %}
             {% if listing.is_closed == False %}
@@ -73,20 +93,45 @@
             {% endif %}
         {% endif %}
 
-        <form action="{% url 'comment' listing.id %}" method="post">
-            {% csrf_token %}
-            <textarea class="form-control" type="text" name="comment" placeholder="Place your comment here"></textarea>
-            <input type = submit value="submit">
-        </form>
-        {% for comment in all_comments %}
-            {% csrf_token %}
-            <br>
-            author: {{comment.commentator}}
-            comment: {{comment.comment}}
-            at: {{comment.comment_time}}
-            <br>
-        {% endfor %}
 
+        <div class="container">
+            <div class="row bootstrap snippets bootdeys">
+                <div class="col-md-8 col-sm-12">
+                    <div class="comment-wrapper">
+                        <div class="panel panel-info">
+                            <div class="panel-heading">
+                                Comment panel
+                            </div>
+                            <div class="panel-body">
+                                <form action="{% url 'comment' listing.id %}" method="post">
+                                    {% csrf_token %}
+                                    <textarea class="form-control" type="text" name="comment" placeholder="Place your comment here"></textarea>
+                                    <input type = submit value="submit">
+                                    <div class="clearfix"></div>
+                                    <hr>
+                                </form>
+                                {% for comment in all_comments %}
+                                {% csrf_token %}
+                                <ul class="media-list">
+                                    <li class="media">
+                                        <div class="media-body">
+                                            <strong class="text-success">{{comment.commentator}}</strong>
+                                            <span class="text-muted pull-right">
+                                                <small class="text-muted">{{comment.comment_time}}</small>
+                                            </span>
+                                            <p>
+                                                {{comment.comment}}
+                                            </p>
+                                        </div>
+                                    </li>
+                                </ul>
+                                {% endfor %}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     {% else %}
         Already have an account? <a href="{% url 'login' %}">Log In here.</a>
     {% endif %}
