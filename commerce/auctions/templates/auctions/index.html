@@ -11,7 +11,10 @@
                         <figure>
                              <a href="{% url 'listing' listing.pk %}">
                                  <img class="card-img-top" src="{{ listing.image }}">
-                                 <figcaption>{{ listing.name_of_listing }}</figcaption>
+                                 <figcaption><h6 class="mb-3">{{ listing.name_of_listing }}<br></h6>
+                                     <i>{{ listing.listing_description }}</i><br>
+                                     <p>{{ listing.current_bid| default:listing.starting_bid}} $</p>
+                                 </figcaption>
                              </a>
                         </figure>
                     {% endfor %}

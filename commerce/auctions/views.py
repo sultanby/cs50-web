@@ -112,7 +112,8 @@ def listing(request, listing_id):
                 "is_in_watchlist": is_in_watchlist,
                 "last_bidder": last_bidder,
                 "all_comments": all_comments,
-                "my_listing" : my_listing
+                "my_listing": my_listing,
+                "categories_choosing": categories_choosing
             })
         else:
             return render(request, 'auctions/listing.html', {

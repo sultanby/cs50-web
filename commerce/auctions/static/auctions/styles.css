@@ -44,9 +44,9 @@ div#columns figure img {
 }
 
 div#columns figure figcaption {
-  font-size: .9rem;
-	color: #444;
-  line-height: 1.5;
+    font-size: .9rem;
+    color: #444;
+    line-height: 1.5;
 }
 
 div#columns:hover figure:not(:hover) {
@@ -54,15 +54,15 @@ div#columns:hover figure:not(:hover) {
 }
 
 @media screen and (max-width: 750px) {
-  #columns { column-gap: 0px; }
-  #columns figure { width: 100%; }
+      #columns { column-gap: 0px; }
+      #columns figure { width: 100%; }
 }
 
-.bat{
+.bat {
     padding-bottom: 15px;
 }
 
-hr{
+hr {
     border-top: 1px solid #000 !important;
 }
 
@@ -103,4 +103,8 @@ img {
     max-width: 100%;
     height: auto;
     -webkit-backface-visibility: hidden;
+}
+
+div#columns figure p {
+    color:seagreen;
 }
