@@ -26,8 +26,8 @@ function compose_email() {
       method: 'POST',
       body: JSON.stringify({
           recipients: document.querySelector('#compose-recipients').value,
-          subject: document.querySelector('#compose-subject').value = '',
-          body: document.querySelector('#compose-body').value = ''
+          subject: document.querySelector('#compose-subject').value,
+          body: document.querySelector('#compose-body').value
       })
     })
     .then(response => response.json())
@@ -56,4 +56,19 @@ function load_mailbox(mailbox) {
 
   // Show the mailbox name
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
+
+
+    fetch('/emails/sent')
+    .then(response => response.json())
+    .then(emails => {
+        for (let email of emails) {
+            console.log(emails);
+            if (mailbox === "sent") {
+                document.querySelector('#emails-view').innerHTML += ` 
+                    <div>sended to ${email["recipients"]}</div>
+                    <div>${email["subject"]}</div>
+                    <div>at ${email["timestamp"]}</div>`;
+            }
+        }
+    });
 }
