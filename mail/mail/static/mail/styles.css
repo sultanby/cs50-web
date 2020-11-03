@@ -1,3 +1,24 @@
 textarea {
     min-height: 400px;
 }
+
+.read-true {
+    background-color: darkgrey;
+}
+
+.read-false {
+    background-color: antiquewhite;
+}
+
+.email-box {
+    border-style: groove;
+}
+
+.email-inner {
+    display: inline;
+}
+
+.right {
+    float: right;
+    opacity: 50%;
+}

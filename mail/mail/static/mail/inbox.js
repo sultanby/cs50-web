@@ -6,6 +6,8 @@ document.addEventListener('DOMContentLoaded', function() {
   document.querySelector('#archived').addEventListener('click', () => load_mailbox('archive'));
   document.querySelector('#compose').addEventListener('click', compose_email);
 
+  document.querySelector('.alert').style.display = 'none';
+
   // By default, load the inbox
   load_mailbox('inbox');
 });
@@ -49,7 +51,7 @@ function compose_email() {
 }
 
 function load_mailbox(mailbox) {
-  
+
   // Show the mailbox and hide other views
   document.querySelector('#emails-view').style.display = 'block';
   document.querySelector('#compose-view').style.display = 'none';
@@ -58,17 +60,16 @@ function load_mailbox(mailbox) {
   document.querySelector('#emails-view').innerHTML = `<h3>${mailbox.charAt(0).toUpperCase() + mailbox.slice(1)}</h3>`;
 
 
-    fetch('/emails/sent')
+    fetch(`emails/${mailbox}`)
     .then(response => response.json())
     .then(emails => {
         for (let email of emails) {
             console.log(emails);
-            if (mailbox === "sent") {
-                document.querySelector('#emails-view').innerHTML += ` 
-                    <div>sended to ${email["recipients"]}</div>
-                    <div>${email["subject"]}</div>
-                    <div>at ${email["timestamp"]}</div>`;
-            }
+
+            document.querySelector('#emails-view').innerHTML += ` 
+                <div class="read-${email["read"]} email-box"><div class="p-2 email-inner">${email["sender"]}</div>
+                <div class="p-2 email-inner ">${email["subject"]}</div>
+                <div class="px-2 email-inner right">${email["timestamp"]}</div></div>`;
         }
     });
 }
