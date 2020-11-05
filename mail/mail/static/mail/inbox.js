@@ -107,4 +107,29 @@ function email_open(email) {
       <div>Time: ${email["timestamp"]}</div>
       <div>Body: ${email["body"]}</div>`
 
+  document.querySelector('#email-open').innerHTML += `
+      <button class="btn btn-primary" id="archive">${email["archived"] ? "Unarchive" : "Archive"}</button>`
+
+
+    document.querySelector('#archive').onclick = () => {
+        fetch('/emails/' + email.id, {
+            method: 'PUT',
+            body: JSON.stringify({
+                archived: !email["archived"]
+            })
+        })
+        .then(response => response.json())
+        .then(result => {
+            if (result["error"]) {
+                document.querySelector('#message').innerHTML = result["error"];
+                document.querySelector('.alert').style.display = 'block';
+                document.body.scrollTop = document.documentElement.scrollTop = 0;
+            } else {
+                document.querySelector('.alert').style.display = 'none';
+                load_mailbox('inbox')
+            }
+        });
+        return false;
+    }
+
 }
