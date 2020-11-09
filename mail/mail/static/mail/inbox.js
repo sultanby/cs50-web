@@ -14,6 +14,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function compose_email() {
 
+    document.querySelector('#header-compose').innerHTML = 'New Email';
     // Show compose view and hide other views
     document.querySelector('#emails-view').style.display = 'none';
     document.querySelector('#compose-view').style.display = 'block';
@@ -101,15 +102,16 @@ function email_open(email, mailbox) {
     })
 
     document.querySelector('#email-open').innerHTML = `
-      <div>Sender: ${email["sender"]}</div>
-      <div>Recipients: ${email["recipients"]}</div>
-      <div>Subject: ${email["subject"]}</div>
-      <div>Time: ${email["timestamp"]}</div>
-      <div>Body: ${email["body"]}</div>`;
+      <div><strong>Sender:</strong> ${email["sender"]}</div>
+      <div><strong>Recipients:</strong> ${email["recipients"]}</div>
+      <div><strong>Subject:</strong> ${email["subject"]}</div>
+      <div><strong>At:</strong> ${email["timestamp"]}</div>
+      <div class="email-body"><strong>Body:</strong><br>${email["body"]}</div>`;
 
     if (mailbox !== 'sent') {
         document.querySelector('#email-open').innerHTML += `
-        <button class="btn btn-primary" id="archive">${email["archived"] ? "Unarchive" : "Archive"}</button>`;
+        <div class="pt-2"><button class="btn btn-sm btn-outline-primary" id="archive">${email["archived"] ? "Unarchive" : "Archive"}</button>
+        <button class="btn btn-sm btn-outline-primary" id="reply">Reply</button></div>`;
 
         document.querySelector('#archive').onclick = () => {
             fetch('/emails/' + email.id, {
@@ -131,6 +133,18 @@ function email_open(email, mailbox) {
                 });
             return false;
         }
-    }
 
+        document.querySelector('#reply').onclick = () => {
+            compose_email();
+
+            if (email["subject"].slice(0,4) != "Re: ") {
+                email["subject"] = `Re: ${email["subject"]}`
+            }
+
+            document.querySelector('#header-compose').innerHTML = 'Reply';
+            document.querySelector('#compose-recipients').value = email["sender"];
+            document.querySelector('#compose-subject').value = `${email["subject"]}`;
+            document.querySelector('#compose-body').value = `On ${email["timestamp"]} ${email["sender"]} wrote:\n\r ${email["body"]} \n\r-------------------------------------\n\r`;
+        }
+    }
 }

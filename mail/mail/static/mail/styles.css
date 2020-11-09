@@ -7,7 +7,8 @@ textarea {
 }
 
 .read-false {
-    background-color: antiquewhite;
+    background-color: white;
+    font-weight: 600;
 }
 
 .border-rule {
@@ -22,3 +23,7 @@ textarea {
     float: right;
     opacity: 50%;
 }
+
+.email-body {
+      white-space: pre-wrap;
+  }
