@@ -3,12 +3,21 @@ from django.db import IntegrityError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
+from django.http import JsonResponse
+import json
 
-from .models import User
+from .models import User, Post
 
 
 def index(request):
-    return render(request, "network/index.html")
+    if request.user.is_authenticated:
+        return render(request, "network/index.html")
+
+    else:
+        return HttpResponseRedirect(reverse("login"))
+
 
 
 def login_view(request):
@@ -61,3 +70,30 @@ def register(request):
         return HttpResponseRedirect(reverse("index"))
     else:
         return render(request, "network/register.html")
+
+@csrf_exempt
+@login_required
+def new_post(request):
+    # Composing a new post must be via POST
+    if request.method != "POST":
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+    # Check if post is not empty
+    new_post_data = json.loads(request.body)
+    new_post_text = new_post_data.get("new_post_text")
+    if new_post_text == [""]:
+        return JsonResponse({
+            "error": "Can't submit empty text area"
+        }, status=400)
+
+    # Get contents of new post
+    post_text = new_post_data.get("new_post_text", "")
+
+    # Add post to db
+    add_new_post_to_db = Post(
+        user=request.user,
+        new_post_text=post_text
+    )
+    add_new_post_to_db.save()
+
+    return JsonResponse({"message": "Post added successfully."}, status=201)
