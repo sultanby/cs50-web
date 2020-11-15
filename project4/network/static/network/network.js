@@ -1,13 +1,5 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    document.querySelector('.alert').style.display = 'none';
-    document.querySelector('#following').addEventListener('click', add_new_post);
-
-    add_new_post();
-});
-
-function add_new_post() {
-
     document.querySelector('#post-form').onsubmit = () => {
     fetch('/post', {
       method: 'POST',
@@ -32,4 +24,4 @@ function add_new_post() {
     return false;
 
     };
-}
+})
