@@ -1,6 +1,15 @@
 document.addEventListener('DOMContentLoaded', function() {
 
-    document.querySelector('#post-form').onsubmit = () => {
+    if (document.querySelector('#new_post'))
+    {
+      document.querySelector('#new_post').addEventListener('click', () => new_post());
+    }
+
+    document.querySelector('.alert').style.display = 'none';
+
+  });
+
+function new_post(){
     fetch('/post', {
       method: 'POST',
       body: JSON.stringify({
@@ -21,7 +30,6 @@ document.addEventListener('DOMContentLoaded', function() {
           document.querySelector('.alert').style.display = 'none';
         }
     });
-    return false;
 
-    };
-})
+    document.querySelector('#post-text').value = '';
+}

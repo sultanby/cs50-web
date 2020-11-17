@@ -7,13 +7,28 @@ from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
 import json
+from django.core.paginator import Paginator
 
 from .models import User, Post
 
 
 def index(request):
+    # Get all the posts
+    all_posts = Post.objects.order_by("-post_time").all()
+
+    # Separating all the posts to the groups of 10
+    paginator = Paginator(all_posts, 10)
+
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
     if request.user.is_authenticated:
-        return render(request, "network/index.html")
+        return render(request, "network/index.html", {
+            'all_posts': all_posts,
+            'page_obj': page_obj,
+
+        })
 
     else:
         return HttpResponseRedirect(reverse("login"))
@@ -81,18 +96,19 @@ def new_post(request):
     # Check if post is not empty
     new_post_data = json.loads(request.body)
     new_post_text = new_post_data.get("new_post_text")
+
+    # Get contents of new post
+    post_text = new_post_data.get("new_post_text", "")
+
     if new_post_text == [""]:
         return JsonResponse({
             "error": "Can't submit empty text area"
         }, status=400)
 
-    # Get contents of new post
-    post_text = new_post_data.get("new_post_text", "")
-
     # Add post to db
     add_new_post_to_db = Post(
-        user=request.user,
-        new_post_text=post_text
+        user_posted=request.user,
+        post=post_text,
     )
     add_new_post_to_db.save()
 
