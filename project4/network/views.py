@@ -113,3 +113,19 @@ def new_post(request):
     add_new_post_to_db.save()
 
     return JsonResponse({"message": "Post added successfully."}, status=201)
+
+@csrf_exempt
+@login_required
+def profile_page(request, username):
+    all_users_posts = Post.objects.get(pk=username).order_by("-post_time").all()
+
+    paginator = Paginator(all_users_posts, 10)
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    return render(request, "network/index.html", {
+        'all_posts': all_users_posts,
+        'page_obj': page_obj,
+        'username': username,
+    })
