@@ -9,7 +9,7 @@ from django.http import JsonResponse
 import json
 from django.core.paginator import Paginator
 
-from .models import User, Post
+from .models import User, Post, ProfileFollows
 
 
 def index(request):
@@ -117,15 +117,24 @@ def new_post(request):
 @csrf_exempt
 @login_required
 def profile_page(request, username):
-    all_users_posts = Post.objects.get(pk=username).order_by("-post_time").all()
+    user = User.objects.get(username=username)
+    all_users_posts = Post.objects.filter(user_posted=user).order_by("-post_time")
+    followings = user.following_user.all()
+    followers = user.follower_user.all()
 
     paginator = Paginator(all_users_posts, 10)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    return render(request, "network/index.html", {
+    if request.user.is_authenticated:
+        return render(request, "network/profile.html", {
         'all_posts': all_users_posts,
         'page_obj': page_obj,
         'username': username,
+        'followers': followers,
+        'followings': followings,
     })
+
+    else:
+        return HttpResponseRedirect(reverse("login"))

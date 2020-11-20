@@ -1,6 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
+    <div>PROFILE</div>
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <span id="message"></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -9,8 +10,10 @@
     </div>
 
     <div class="profile-info">
-        {{username.username}}
+        {{user.username}}
     </div>
+    <h5>Followers {{ followers.count }}</h5>
+    <h5>Subscriptions {{ followings.count }}</h5>
 
     <div class="new-post">
         <h2>New Post</h2>

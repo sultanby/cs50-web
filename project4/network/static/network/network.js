@@ -1,5 +1,6 @@
 document.addEventListener('DOMContentLoaded', function() {
 
+
     if (document.querySelector('#new_post'))
     {
       document.querySelector('#new_post').addEventListener('click', () => new_post());
