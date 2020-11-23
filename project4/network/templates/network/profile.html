@@ -10,8 +10,19 @@
     </div>
 
     <div class="profile-info">
-        {{user.username}}
+        {{username}}
     </div>
+
+    {% if user != users_profile %}
+        <form action="{% url 'profile page' username %}" method="POST">
+            {% if is_followed %}
+                <input type="submit" value="Following" name="unfollow_btn" class="btn following-btn" id="unfollowBtn">
+            {% else %}
+                <input type="submit" value="Follow" name="follow_btn" class="btn follow-btn">
+            {% endif %}
+        </form>
+    {% endif %}
+
     <h5>Followers {{ followers.count }}</h5>
     <h5>Subscriptions {{ followings.count }}</h5>
 

@@ -117,24 +117,48 @@ def new_post(request):
 @csrf_exempt
 @login_required
 def profile_page(request, username):
-    user = User.objects.get(username=username)
-    all_users_posts = Post.objects.filter(user_posted=user).order_by("-post_time")
-    followings = user.following_user.all()
-    followers = user.follower_user.all()
+    users_profile = User.objects.get(username=username)
+    print(users_profile)
+    user_logged = request.user
+    print(user_logged)
+    is_followed = ProfileFollows.objects.filter(user_to_follow=users_profile.id).exists()
+    print(is_followed)
+
+    all_users_posts = Post.objects.filter(user_posted=users_profile).order_by("-post_time")
+    followings = users_profile.following_user.all()
+    followers = users_profile.follower_user.all()
 
     paginator = Paginator(all_users_posts, 10)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
-    if request.user.is_authenticated:
+    if request.method == "POST":
+        if "unfollow_btn" in request.POST:
+            ProfileFollows.objects.get(user_to_follow=users_profile, follower=request.user).delete()
+            is_followed = True
+        elif "follow_btn" in request.POST:
+            ProfileFollows.objects.create(user_to_follow=users_profile, follower=request.user)
+            is_followed = False
+        else:
+            print("Error: wrong input name")
         return render(request, "network/profile.html", {
+            'all_posts': all_users_posts,
+            'page_obj': page_obj,
+            'username': username,
+            'followers': followers,
+            'followings': followings,
+            'is_followed': is_followed,
+            'users_profile': users_profile
+        })
+
+
+    return render(request, "network/profile.html", {
         'all_posts': all_users_posts,
         'page_obj': page_obj,
         'username': username,
         'followers': followers,
         'followings': followings,
+        'is_followed': is_followed,
+        'users_profile': users_profile
     })
-
-    else:
-        return HttpResponseRedirect(reverse("login"))
