@@ -19,7 +19,6 @@ def index(request):
     # Separating all the posts to the groups of 10
     paginator = Paginator(all_posts, 10)
 
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -32,7 +31,6 @@ def index(request):
 
     else:
         return HttpResponseRedirect(reverse("login"))
-
 
 
 def login_view(request):
@@ -117,41 +115,31 @@ def new_post(request):
 @csrf_exempt
 @login_required
 def profile_page(request, username):
+    # get the user which profile is currently opened
     users_profile = User.objects.get(username=username)
-    print(users_profile)
-    user_logged = request.user
-    print(user_logged)
-    is_followed = ProfileFollows.objects.filter(user_to_follow=users_profile.id).exists()
-    print(is_followed)
 
+    # make sure if logged in user is following users_profile
+    is_followed = ProfileFollows.objects.filter(user_to_follow=users_profile.id, follower=request.user).exists()
+
+    # get all users_profile posts in reverse chronological order
     all_users_posts = Post.objects.filter(user_posted=users_profile).order_by("-post_time")
-    followings = users_profile.following_user.all()
-    followers = users_profile.follower_user.all()
+    followers = users_profile.following_user.all()
+    followings = users_profile.follower_user.all()
 
+    #add paginator
     paginator = Paginator(all_users_posts, 10)
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
+    # add or delete follower from db
     if request.method == "POST":
         if "unfollow_btn" in request.POST:
             ProfileFollows.objects.get(user_to_follow=users_profile, follower=request.user).delete()
-            is_followed = True
         elif "follow_btn" in request.POST:
             ProfileFollows.objects.create(user_to_follow=users_profile, follower=request.user)
-            is_followed = False
         else:
             print("Error: wrong input name")
-        return render(request, "network/profile.html", {
-            'all_posts': all_users_posts,
-            'page_obj': page_obj,
-            'username': username,
-            'followers': followers,
-            'followings': followings,
-            'is_followed': is_followed,
-            'users_profile': users_profile
-        })
-
+        return HttpResponseRedirect(reverse("profile page", args=(username, )))
 
     return render(request, "network/profile.html", {
         'all_posts': all_users_posts,
@@ -162,3 +150,30 @@ def profile_page(request, username):
         'is_followed': is_followed,
         'users_profile': users_profile
     })
+
+@csrf_exempt
+@login_required
+def following_posts(request):
+    # Get all the following posts
+    user = request.user
+    all_follows = ProfileFollows.objects.filter(follower=user)
+    print(all_follows)
+    all_posts = Post.objects.filter(user_posted__id__in=all_follows.values("user_to_follow_id")).order_by("-post_time")
+    print(all_posts)
+
+    # Separating all the posts to the groups of 10
+    paginator = Paginator(all_posts, 10)
+
+
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
+
+    if request.user.is_authenticated:
+        return render(request, "network/index.html", {
+            'all_posts': all_posts,
+            'page_obj': page_obj,
+
+        })
+
+    else:
+        return HttpResponseRedirect(reverse("login"))
