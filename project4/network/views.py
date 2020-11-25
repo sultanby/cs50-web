@@ -94,11 +94,12 @@ def new_post(request):
     # Check if post is not empty
     new_post_data = json.loads(request.body)
     new_post_text = new_post_data.get("new_post_text")
+    print(new_post_text)
 
     # Get contents of new post
     post_text = new_post_data.get("new_post_text", "")
 
-    if new_post_text == [""]:
+    if new_post_text == "":
         return JsonResponse({
             "error": "Can't submit empty text area"
         }, status=400)

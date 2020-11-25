@@ -28,8 +28,10 @@
 
     <div class="new-post">
         <h2>New Post</h2>
-        <textarea id="post-text" placeholder="What do you think about today?"></textarea>
-        <input type="submit" id="new_post" class="btn btn-primary"/>
+        <form>
+            <textarea id="post-text" placeholder="What do you think about today?"></textarea>
+            <input type="submit" href="{% url 'profile page' user.username %}" id="new_post" class="btn btn-primary"/>
+        </form>
     </div>
 
      {% include 'network/posts.html' %}
