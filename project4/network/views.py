@@ -84,6 +84,7 @@ def register(request):
     else:
         return render(request, "network/register.html")
 
+
 @csrf_exempt
 @login_required
 def new_post(request):
@@ -113,6 +114,7 @@ def new_post(request):
 
     return JsonResponse({"message": "Post added successfully."}, status=201)
 
+
 @csrf_exempt
 @login_required
 def profile_page(request, username):
@@ -127,7 +129,7 @@ def profile_page(request, username):
     followers = users_profile.following_user.all()
     followings = users_profile.follower_user.all()
 
-    #add paginator
+    # add paginator
     paginator = Paginator(all_users_posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
@@ -140,7 +142,7 @@ def profile_page(request, username):
             ProfileFollows.objects.create(user_to_follow=users_profile, follower=request.user)
         else:
             print("Error: wrong input name")
-        return HttpResponseRedirect(reverse("profile page", args=(username, )))
+        return HttpResponseRedirect(reverse("profile page", args=(username,)))
 
     return render(request, "network/profile.html", {
         'all_posts': all_users_posts,
@@ -151,6 +153,7 @@ def profile_page(request, username):
         'is_followed': is_followed,
         'users_profile': users_profile
     })
+
 
 @csrf_exempt
 @login_required
@@ -165,7 +168,6 @@ def following_posts(request):
     # Separating all the posts to the groups of 10
     paginator = Paginator(all_posts, 10)
 
-
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
 
@@ -178,3 +180,33 @@ def following_posts(request):
 
     else:
         return HttpResponseRedirect(reverse("login"))
+
+
+@csrf_exempt
+@login_required
+def edit(request):
+    if request.method == "POST":
+        post_id = request.POST.get('id')
+        new_post_text = request.POST.get('editedPostText')
+        print(post_id, new_post_text)
+
+        post = Post.objects.get(id=post_id)
+        print(post.post)
+        print(new_post_text)
+        if post.user_posted == request.user:
+            print("we are in if")
+            post.post = new_post_text
+            post.save()
+            return JsonResponse({"message": "Post added successfully."}, status=201)
+        else:
+            return JsonResponse({"error": "can't edit"}, status=400)
+    else:
+        return JsonResponse({"error": "POST request required."}, status=400)
+
+@csrf_exempt
+@login_required
+def like(request):
+    if request.method == "POST":
+        return JsonResponse({"message": "Post liked successfully."}, status=201)
+    else:
+        return JsonResponse({"error": "POST request required."}, status=400)

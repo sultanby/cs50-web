@@ -1,34 +1,43 @@
 <div class="all-posts">
-        {% for post in page_obj %}
-            <ul class="media-list">
-                <li class="media">
-                    <div class="media-body">
-                        <strong class="text-success">{{post.user_posted}}</strong>
-                        <span class="text-muted pull-right">
-                            <small class="text-muted">{{post.post_time}}</small>
-                        </span>
-                        <p>
-                            {{post.post}}
-                        </p>
-                    </div>
-                </li>
-            </ul>
-        {% endfor %}
-        <div class="pagination">
-            <span class="page-link">
-                {% if page_obj.has_previous %}
-                    <a class="page-link" href="?page=1">&laquo; first</a>
-                    <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
-                {% endif %}
+    {% for post in page_obj %}
+        <ul class="media-list">
+            <li class="media">
+                <div class="media-body">
+                    <strong class="text-success">{{post.user_posted}}</strong>
+                    {% if post.user_posted == user %}
+                        <button class="edit-post edit-btn-{{ post.id }}" id="{{ post.id }}">Edit</button>
+                    {% endif %}
+                    <span class="text-muted pull-right">
+                        <small class="text-muted">{{post.post_time}}</small>
+                    </span>
+                    <p id="post-text-for-{{post.id}}" class="post-text" style="display:block;">
+                        {{post.post}}
+                    </p>
+                    <textarea id="textarea-edit-for-{{post.id}}" class="edit-textarea" style="display:none;">{{post.post}}</textarea>
+                    <button id="save-edit-for-{{post.id}}" class="edit-textarea" style="display:none;">Save edit</button>
+                    <button id="cancel-edit-for-{{post.id}}" class="edit-textarea" style="display:none;">Cancel edit</button>
 
-                <span class="current page-link disabled">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-                </span>
+                    <button class ="like-btn" id="liked-post-{{post.id}}">Like</button>
+                    <span>{{post.like.count}}</span>
+                </div>
+            </li>
+        </ul>
+    {% endfor %}
+    <div class="pagination">
+        <span class="page-link">
+            {% if page_obj.has_previous %}
+                <a class="page-link" href="?page=1">&laquo; first</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+            {% endif %}
 
-                {% if page_obj.has_next %}
-                    <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
-                {% endif %}
+            <span class="current page-link disabled">
+                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
             </span>
-        </div>
+
+            {% if page_obj.has_next %}
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+            {% endif %}
+        </span>
+    </div>
 </div>
