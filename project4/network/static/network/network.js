@@ -102,6 +102,33 @@ function saveEdit(id){
 }
 
 function like(item){
-    let id = item.getAttribute("id");
+    let pre_id = item.getAttribute("id");
+    let id = pre_id.slice(11);
     console.log(id);
+
+    let formData = new FormData();
+    formData.append("id", id);
+
+    fetch("/like", {
+        body: formData,
+        method: 'POST',
+    })
+    .then(response => response.json())
+    .then(result => {
+        if (result["remove"]){
+            console.log(result);
+            console.log(result["like_count"])
+            document.querySelector(`#liked-post-${id}`).style.backgroundColor = "white";
+            document.querySelector(`.like-count-${id}`).innerHTML = result["like_count"];
+        }
+        else {
+            console.log(result);
+            console.log(result["like_count"])
+            document.querySelector(`#liked-post-${id}`).style.backgroundColor = "red";
+            document.querySelector(`.like-count-${id}`).innerHTML = result["like_count"];
+        }
+
+    });
+
+
 }

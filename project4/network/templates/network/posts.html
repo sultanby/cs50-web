@@ -17,8 +17,13 @@
                     <button id="save-edit-for-{{post.id}}" class="edit-textarea" style="display:none;">Save edit</button>
                     <button id="cancel-edit-for-{{post.id}}" class="edit-textarea" style="display:none;">Cancel edit</button>
 
-                    <button class ="like-btn" id="liked-post-{{post.id}}">Like</button>
-                    <span>{{post.like.count}}</span>
+                    <button class="like-btn" id="liked-post-{{post.id}}"
+                            {% if not request.user in post.like.all %} style="background-color:white;"
+                            {% else %} style="background-color:red;"
+                            {% endif %}>
+                        Like
+                    </button>
+                    <span class="like-count-{{post.id}}">{{post.like.count}}</span>
                 </div>
             </li>
         </ul>
