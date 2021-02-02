@@ -3,7 +3,7 @@
         <ul class="media-list">
             <li class="media">
                 <div class="media-body">
-                    <strong class="text-success">{{post.user_posted}}</strong>
+                    <a><strong class="text-success" href="{% url 'profile page' post.user_posted %}">{{post.user_posted}}</strong></a>
                     {% if post.user_posted == user %}
                         <button class="edit-post edit-btn-{{ post.id }}" id="{{ post.id }}">Edit</button>
                     {% endif %}

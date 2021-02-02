@@ -26,7 +26,6 @@ def index(request):
         return render(request, "network/index.html", {
             'all_posts': all_posts,
             'page_obj': page_obj,
-
         })
 
     else:
@@ -209,13 +208,9 @@ def like(request):
     if request.method == "POST":
         post_id = request.POST.get('id')
         user = request.user
-        # print(post_id, user)
         post = Post.objects.get(id=post_id)
-        # print(post)
         like_count = post.like.count()
         print(like_count)
-        # like_finding = post.like.filter(pk=user.id)
-        # print(like_finding)
         if post.like.filter(pk=user.id).exists():
             print("like to that post from that user already exists")
             post.like.remove(user)
@@ -224,6 +219,5 @@ def like(request):
             print("you liked post")
             post.like.add(user)
             return JsonResponse({"add": "Post liked successfully.", "like_count": post.like.count()}, status=201)
-        # print(like_finding)
     else:
         return JsonResponse({"error": "POST request required."}, status=400)
