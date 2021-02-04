@@ -47,7 +47,7 @@ def login_view(request):
         else:
             return render(request, "network/login.html", {
                 "message": "Invalid username and/or password."
-            })
+            }, status=403)
     else:
         return render(request, "network/login.html")
 
@@ -91,15 +91,9 @@ def new_post(request):
     if request.method != "POST":
         return JsonResponse({"error": "POST request required."}, status=400)
 
-    # Check if post is not empty
-    new_post_data = json.loads(request.body)
-    new_post_text = new_post_data.get("new_post_text")
-    print(new_post_text)
+    new_post_text = request.POST.get("new_post_text")
 
-    # Get contents of new post
-    post_text = new_post_data.get("new_post_text", "")
-
-    if new_post_text == "":
+    if (new_post_text == "" or new_post_text == None):
         return JsonResponse({
             "error": "Can't submit empty text area"
         }, status=400)
@@ -107,7 +101,7 @@ def new_post(request):
     # Add post to db
     add_new_post_to_db = Post(
         user_posted=request.user,
-        post=post_text,
+        post=new_post_text,
     )
     add_new_post_to_db.save()
 

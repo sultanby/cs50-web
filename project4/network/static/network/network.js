@@ -19,12 +19,12 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function new_post(){
+    let postText = document.querySelector('#post-text').value;
+    let body = new FormData()
+    body.append('new_post_text', postText)
     fetch('/post', {
       method: 'POST',
-      body: JSON.stringify({
-          newPostText: document.querySelector('#post-text').value,
-      })
-
+      body: body
     })
     .then(response => response.json())
     .then(result => {

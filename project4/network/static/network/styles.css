@@ -1,0 +1,38 @@
+.container{
+    width: 50%;
+}
+
+.post{
+    padding: 5px;
+    border-style: solid;
+    border-color: #b3b7bb;
+}
+
+.user{
+
+}
+
+.edit-post{
+    float: right;
+
+}
+
+.post-time{
+    display: block;
+    padding-top: 3px;
+    padding-bottom: 3px;
+    margin: 0px;
+}
+hr {
+    margin: 0px;
+}
+
+.post-text{
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.like-btn-div{
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
