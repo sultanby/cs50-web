@@ -1,12 +1,15 @@
 <div class="all-posts">
-    <div class ="container">
+    <div class="posts">
         {% for post in page_obj %}
             <ul class="media-list">
                 <li class="media">
                     <div class="media-body post">
                         <a class="user" href="{% url 'profile page' post.user_posted %}"><strong class="text-success">{{post.user_posted}} posted </strong></a>
                         {% if post.user_posted == user %}
-                            <button class="edit-post edit-btn-{{ post.id }}" id="{{ post.id }}">Edit</button>
+                            <button class="edit-post-btn edit-btn-{{ post.id }}" id="{{ post.id }}">
+                                <img src="https://img.icons8.com/material-two-tone/24/000000/edit--v1.png"/>
+                                Edit
+                            </button>
                         {% endif %}
                         <span class="text-muted pull-right post-time">
                             <small class="text-muted">{{post.post_time}}</small>
@@ -16,27 +19,29 @@
                             {{post.post}}
                         </p>
                         <textarea id="textarea-edit-for-{{post.id}}" class="edit-textarea" style="display:none;">{{post.post}}</textarea>
-                        <button id="save-edit-for-{{post.id}}" class="edit-textarea" style="display:none;">Save edit</button>
-                        <button id="cancel-edit-for-{{post.id}}" class="edit-textarea" style="display:none;">Cancel edit</button>
-
+                        <button id="save-edit-for-{{post.id}}" class="edit-save-btn" style="display:none;">Save</button>
+                        <button id="cancel-edit-for-{{post.id}}" class="edit-cancel-btn" style="display:none;">Cancel</button>
                         <hr>
-                        <div class = "like-btn-div"><button class="like-btn" id="liked-post-{{post.id}}"
-                                {% if not request.user in post.like.all %} style="background-color:white;"
-                                {% else %} style="background-color:red;"
-                                {% endif %}>
-                            Like
-                        </button>
-                        <span class="like-count-{{post.id}}">{{post.like.count}}</span></div>
+                        <div class = "like">
+                            <button class="like-btn" id="liked-post-{{post.id}}">
+                                <img class="like-icon" id="like-icon-{{post.id}}"
+                                     {% if not request.user in post.like.all %} src="/static/network/media/unlike.png"
+                                     {% else %} src="/static/network/media/like.png"
+                                     {% endif %}>
+                                <span id="like-text-{{post.id}}">{% if not request.user in post.like.all %} Like {% else %} Unlike {% endif %}</span>
+                            </button>
+                            <span class="like-count-{{post.id}}">{{post.like.count}}</span>
+                        </div>
                     </div>
                 </li>
             </ul>
         {% endfor %}
     </div>
-    <div class="pagination">
+    <div class="pagination justify-content-center">
         <span class="page-link">
             {% if page_obj.has_previous %}
                 <a class="page-link" href="?page=1">&laquo; first</a>
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">previous</a>
+                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
             {% endif %}
 
             <span class="current page-link disabled">
@@ -44,7 +49,7 @@
             </span>
 
             {% if page_obj.has_next %}
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">next</a>
+                <a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
                 <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
             {% endif %}
         </span>

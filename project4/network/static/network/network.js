@@ -7,7 +7,7 @@ document.addEventListener('DOMContentLoaded', function() {
       document.querySelector('#new_post').addEventListener('click', () => new_post());
     }
     //calls function edit() for clicked edit post button
-    document.querySelectorAll('.edit-post')
+    document.querySelectorAll('.edit-post-btn')
         .forEach(item => {
             item.addEventListener('click',() => edit(item));
         });
@@ -49,8 +49,8 @@ function edit(item) {
     document.querySelector(`#post-text-for-${id}`).style.display = "none";
     document.querySelector(`.edit-btn-${id}`).style.display = "none";
     document.querySelector(`#textarea-edit-for-${id}`).style.display = "block";
-    document.querySelector(`#save-edit-for-${id}`).style.display = "block";
-    document.querySelector(`#cancel-edit-for-${id}`).style.display = "block";
+    document.querySelector(`#save-edit-for-${id}`).style.display = "inline-block";
+    document.querySelector(`#cancel-edit-for-${id}`).style.display = "inline-block";
     document.querySelector(`#cancel-edit-for-${id}`).addEventListener('click', function(){
         document.querySelector(`#post-text-for-${id}`).style.display = "block";
         document.querySelector(`.edit-btn-${id}`).style.display = "inline";
@@ -100,7 +100,15 @@ function saveEdit(id){
     });
 
 }
+function renderLike(id){
+    document.querySelector(`#like-icon-${id}`).src = "/static/network/media/unlike.png";
+    document.querySelector(`#like-text-${id}`).innerHTML = "Like";
+}
 
+function renderUnlike(id){
+    document.querySelector(`#like-icon-${id}`).src = "/static/network/media/like.png";
+    document.querySelector(`#like-text-${id}`).innerHTML = "Unlike";
+}
 function like(item){
     let pre_id = item.getAttribute("id");
     let id = pre_id.slice(11);
@@ -115,20 +123,8 @@ function like(item){
     })
     .then(response => response.json())
     .then(result => {
-        if (result["remove"]){
-            console.log(result);
-            console.log(result["like_count"])
-            document.querySelector(`#liked-post-${id}`).style.backgroundColor = "white";
-            document.querySelector(`.like-count-${id}`).innerHTML = result["like_count"];
-        }
-        else {
-            console.log(result);
-            console.log(result["like_count"])
-            document.querySelector(`#liked-post-${id}`).style.backgroundColor = "red";
-            document.querySelector(`.like-count-${id}`).innerHTML = result["like_count"];
-        }
-
+        result["remove"] ? renderLike(id) : renderUnlike(id);
+        document.querySelector(`.like-count-${id}`).innerHTML = result["like_count"];
     });
-
 
 }
