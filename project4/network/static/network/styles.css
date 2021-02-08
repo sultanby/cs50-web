@@ -1,6 +1,7 @@
 .posts{
     width: 50%;
     margin: 0 auto;
+    display: block;
 }
 
 .post{
@@ -48,6 +49,14 @@ hr{
     margin-bottom: 5px;
 }
 
-.page-link{
-    display: inline;
+.new-post-form{
+    width: 45%;
+    margin: 0 auto;
+    display: block;
+    background-color: red;
 }
+
+.new-post-submit-btn{
+    display: block;
+}
+

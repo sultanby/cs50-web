@@ -12,11 +12,17 @@
         {{username.username}}
     </div>
 
-    <div class="new-post">
+    <div class="posts">
         <h2>New Post</h2>
         <form>
-            <textarea id="post-text" placeholder="What do you think about today?"></textarea>
-            <input type="submit" href="{% url 'index' %}" id="new_post" class="btn btn-primary"/>
+            <textarea id="post-text"
+                      placeholder="What do you think about today?"
+                      class="edit-textarea"
+            ></textarea>
+            <input type="submit"
+                   href="{% url 'index' %}"
+                   id="new_post"
+                   class="btn btn-primary"/>
         </form>
     </div>
 
