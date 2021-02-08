@@ -4,7 +4,7 @@ from django.utils import timezone
 
 
 class User(AbstractUser):
-    pass
+    profile_pic = models.ImageField(upload_to="images/", null=True, blank=True)
 
 class Post(models.Model):
     post = models.TextField(blank=True)

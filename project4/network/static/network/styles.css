@@ -5,18 +5,15 @@
 }
 
 .post{
+    margin-top: 5px;
+    margin-bottom: 5px;
     padding: 5px;
     border-style: solid;
     border-color: #b3b7bb;
 }
 
-.user{
-
-}
-
 .edit-post-btn{
     float: right;
-
 }
 
 .post-time{
@@ -26,6 +23,7 @@
     margin: 0px;
 }
 hr{
+    display: block;
     margin: 0px;
 }
 
@@ -49,14 +47,40 @@ hr{
     margin-bottom: 5px;
 }
 
-.new-post-form{
-    width: 45%;
-    margin: 0 auto;
-    display: block;
-    background-color: red;
-}
-
 .new-post-submit-btn{
     display: block;
 }
 
+.profile-photo{
+    width: 300px;
+    margin-left: auto;
+    margin-right: auto;
+    display: block;
+}
+
+.profile-username{
+    text-align: center;
+    padding-top: 10px;
+}
+
+.follower{
+    display: inline;
+}
+
+.vl{
+    border-left: 3px solid grey;
+    padding-right: 3px;
+    display: inline;
+}
+
+.follower-box{
+    padding-top: 10px;
+    text-align: center;
+    margin: 0 auto;
+    display: block;
+}
+
+.post-pic{
+    width: 50px;
+    margin-right: 3px;
+}

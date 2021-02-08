@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.views.decorators.csrf import csrf_exempt
 from django.contrib.auth.decorators import login_required
 from django.http import JsonResponse
-import json
 from django.core.paginator import Paginator
 
 from .models import User, Post, ProfileFollows
@@ -21,10 +20,9 @@ def index(request):
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
+    page_obj = add_pic_to_post(page_obj)
     if request.user.is_authenticated:
         return render(request, "network/index.html", {
-            'all_posts': all_posts,
             'page_obj': page_obj,
         })
 
@@ -69,10 +67,11 @@ def register(request):
             return render(request, "network/register.html", {
                 "message": "Passwords must match."
             })
-
+        print("request files", request.FILES)
+        file = request.FILES["profile_pic"]
         # Attempt to create new user
         try:
-            user = User.objects.create_user(username, email, password)
+            user = User.objects.create_user(username, email, password, profile_pic=file)
             user.save()
         except IntegrityError:
             return render(request, "network/register.html", {
@@ -126,7 +125,7 @@ def profile_page(request, username):
     paginator = Paginator(all_users_posts, 10)
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
+    page_obj = add_pic_to_post(page_obj)
     # add or delete follower from db
     if request.method == "POST":
         if "unfollow_btn" in request.POST:
@@ -138,7 +137,6 @@ def profile_page(request, username):
         return HttpResponseRedirect(reverse("profile page", args=(username,)))
 
     return render(request, "network/profile.html", {
-        'all_posts': all_users_posts,
         'page_obj': page_obj,
         'username': username,
         'followers': followers,
@@ -155,25 +153,29 @@ def following_posts(request):
     user = request.user
     all_follows = ProfileFollows.objects.filter(follower=user)
     print(all_follows)
+
     all_posts = Post.objects.filter(user_posted__id__in=all_follows.values("user_to_follow_id")).order_by("-post_time")
     print(all_posts)
-
     # Separating all the posts to the groups of 10
     paginator = Paginator(all_posts, 10)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
-
+    page_obj = add_pic_to_post(page_obj)
     if request.user.is_authenticated:
         return render(request, "network/index.html", {
-            'all_posts': all_posts,
             'page_obj': page_obj,
-
         })
-
     else:
         return HttpResponseRedirect(reverse("login"))
 
+
+def add_pic_to_post(posts):
+    for post in posts:
+        user_posted_username = post.user_posted
+        user = User.objects.get(username=user_posted_username)
+        post.profile_pic = user.profile_pic
+    return posts
 
 @csrf_exempt
 @login_required

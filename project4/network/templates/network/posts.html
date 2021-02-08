@@ -2,16 +2,19 @@
     <div class="posts">
         {% for post in page_obj %}
             <div class="post">
-                <a class="user" href="{% url 'profile page' post.user_posted %}"><strong class="text-success">{{post.user_posted}} posted </strong></a>
-                {% if post.user_posted == user %}
-                    <button class="edit-post-btn edit-btn-{{ post.id }}" id="{{ post.id }}">
-                        <img src="https://img.icons8.com/material-two-tone/24/000000/edit--v1.png"/>
-                        Edit
-                    </button>
-                {% endif %}
-                <span class="text-muted pull-right post-time">
-                    <small class="text-muted">{{post.post_time}}</small>
-                </span>
+                <div class="post-header">
+                    <img src="{{ post.profile_pic.url }}" class="post-pic" />
+                    <a class="user" href="{% url 'profile page' post.user_posted %}"><strong class="text-success">{{post.user_posted}} posted </strong></a>
+                    {% if post.user_posted == user %}
+                        <button class="edit-post-btn edit-btn-{{ post.id }}" id="{{ post.id }}">
+                            <img src="https://img.icons8.com/material-two-tone/24/000000/edit--v1.png"/>
+                            Edit
+                        </button>
+                    {% endif %}
+                    <span class="text-muted pull-right post-time">
+                        <small class="text-muted">{{post.post_time}}</small>
+                    </span>
+                </div>
                 <hr>
                 <p id="post-text-for-{{post.id}}" class="post-text" style="display:block;">
                     {{post.post}}

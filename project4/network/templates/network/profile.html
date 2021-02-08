@@ -1,7 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    <div>PROFILE</div>
+    <div class="follower-box">PROFILE</div>
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <span id="message"></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -9,10 +9,18 @@
         </button>
     </div>
 
-    <div class="profile-info">
-        {{username}}
+    <div class="profile-photo">
+        <img src="{{ users_profile.profile_pic.url }}" class="img-responsive profile-photo" />
+        <h3 class="profile-username">{{ username }}</h3>
     </div>
 
+    <div class="follower-box">
+        <h5 class="follower">Followers {{ followers.count }}</h5>
+        <div class="vl"></div>
+        <h5 class="follower">Subscriptions {{ followings.count }}</h5>
+    </div>
+
+    <div class="follower-box">
     {% if user != users_profile %}
         <form action="{% url 'profile page' username %}" method="POST">
             {% if is_followed %}
@@ -22,15 +30,13 @@
             {% endif %}
         </form>
     {% endif %}
+    </div>
 
-    <h5>Followers {{ followers.count }}</h5>
-    <h5>Subscriptions {{ followings.count }}</h5>
-
-    <div class="new-post">
+    <div class="posts">
         <h2>New Post</h2>
         <form>
-            <textarea id="post-text" placeholder="What do you think about today?"></textarea>
-            <input type="submit" href="{% url 'profile page' user.username %}" id="new_post" class="btn btn-primary"/>
+            <textarea id="post-text" class="edit-textarea" placeholder="What do you think about today?"></textarea>
+            <button type="submit" href="{% url 'profile page' user.username %}" id="new_post" class="btn btn-primary">Add post</button>
         </form>
     </div>
 
