@@ -24,7 +24,7 @@ function new_post(){
     body.append('new_post_text', postText)
     fetch('/post', {
       method: 'POST',
-      body: body
+      body: body,
     })
     .then(response => response.json())
     .then(result => {

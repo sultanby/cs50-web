@@ -8,15 +8,15 @@
         </button>
     </div>
 
-    <div class="profile-info">
-        {{username.username}}
-    </div>
+    <h2 class="profile-info posts">
+        hey, {{user.username}}!&#11088;<br>say what's on your mind &#128173;<br> there are people waiting to hear<br>&#x2B07;
+    </h2>
 
-    <div class="posts">
-        <h2>New Post</h2>
+    <div class="posts post new-post-index">
+        <h2 class="post-text ">New Post</h2>
         <form>
             <textarea id="post-text" placeholder="What do you think about today?" class="edit-textarea"></textarea>
-            <button type="submit" href="{% url 'index' %}" id="new_post" class="btn btn-primary">Add post</button>
+            <button type="submit" href="{% url 'index' %}" id="new_post" class="btn btn-secondary">Add post</button>
         </form>
     </div>
 

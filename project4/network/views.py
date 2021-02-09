@@ -67,7 +67,6 @@ def register(request):
             return render(request, "network/register.html", {
                 "message": "Passwords must match."
             })
-        print("request files", request.FILES)
         file = request.FILES["profile_pic"]
         # Attempt to create new user
         try:
@@ -92,7 +91,7 @@ def new_post(request):
 
     new_post_text = request.POST.get("new_post_text")
 
-    if (new_post_text == "" or new_post_text == None):
+    if (new_post_text=="" or new_post_text==None):
         return JsonResponse({
             "error": "Can't submit empty text area"
         }, status=400)
@@ -152,16 +151,16 @@ def following_posts(request):
     # Get all the following posts
     user = request.user
     all_follows = ProfileFollows.objects.filter(follower=user)
-    print(all_follows)
-
     all_posts = Post.objects.filter(user_posted__id__in=all_follows.values("user_to_follow_id")).order_by("-post_time")
-    print(all_posts)
+
     # Separating all the posts to the groups of 10
     paginator = Paginator(all_posts, 10)
 
     page_number = request.GET.get('page')
     page_obj = paginator.get_page(page_number)
+
     page_obj = add_pic_to_post(page_obj)
+
     if request.user.is_authenticated:
         return render(request, "network/index.html", {
             'page_obj': page_obj,
@@ -183,13 +182,9 @@ def edit(request):
     if request.method == "POST":
         post_id = request.POST.get('id')
         new_post_text = request.POST.get('editedPostText')
-        print(post_id, new_post_text)
 
         post = Post.objects.get(id=post_id)
-        print(post.post)
-        print(new_post_text)
         if post.user_posted == request.user:
-            print("we are in if")
             post.post = new_post_text
             post.save()
             return JsonResponse({"message": "Post added successfully."}, status=201)
@@ -205,14 +200,10 @@ def like(request):
         post_id = request.POST.get('id')
         user = request.user
         post = Post.objects.get(id=post_id)
-        like_count = post.like.count()
-        print(like_count)
         if post.like.filter(pk=user.id).exists():
-            print("like to that post from that user already exists")
             post.like.remove(user)
             return JsonResponse({"remove": "Post unliked successfully.", "like_count": post.like.count()}, status=201)
         else:
-            print("you liked post")
             post.like.add(user)
             return JsonResponse({"add": "Post liked successfully.", "like_count": post.like.count()}, status=201)
     else:

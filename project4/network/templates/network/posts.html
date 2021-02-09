@@ -20,11 +20,11 @@
                     {{post.post}}
                 </p>
                 <textarea id="textarea-edit-for-{{post.id}}" class="edit-textarea" style="display:none;">{{post.post}}</textarea>
-                <button id="save-edit-for-{{post.id}}" class="edit-save-btn" style="display:none;">Save</button>
-                <button id="cancel-edit-for-{{post.id}}" class="edit-cancel-btn" style="display:none;">Cancel</button>
+                <button id="save-edit-for-{{post.id}}" class="btn btn-secondary edit-save-btn" style="display:none;">Save</button>
+                <button id="cancel-edit-for-{{post.id}}" class="btn btn-secondary edit-cancel-btn" style="display:none;">Cancel</button>
                 <hr>
                 <div class = "like">
-                    <button class="like-btn" id="liked-post-{{post.id}}">
+                    <button class="like-btn btn btn-secondary" id="liked-post-{{post.id}}">
                         <img class="like-icon" id="like-icon-{{post.id}}"
                              {% if not request.user in post.like.all %} src="/static/network/media/unlike.png"
                              {% else %} src="/static/network/media/like.png"
@@ -37,19 +37,17 @@
         {% endfor %}
     </div>
     <div class="pagination justify-content-center">
-        <span class="page-link">
+        <span class="pag">
             {% if page_obj.has_previous %}
-                <a class="page-link" href="?page=1">&laquo; first</a>
-                <a class="page-link" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
+                <a class="page-el" href="?page=1">&laquo; first page</a>
+                <a class="page-el" href="?page={{ page_obj.previous_page_number }}">{{ page_obj.previous_page_number }}</a>
             {% endif %}
 
-            <span class="current page-link disabled">
-                Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
-            </span>
+            <span class="page-el">page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}</span>
 
             {% if page_obj.has_next %}
-                <a class="page-link" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
-                <a class="page-link" href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                <a class="page-el" href="?page={{ page_obj.next_page_number }}">{{ page_obj.next_page_number }}</a>
+                <a class="page-el" href="?page={{ page_obj.paginator.num_pages }}">last page &raquo;</a>
             {% endif %}
         </span>
     </div>

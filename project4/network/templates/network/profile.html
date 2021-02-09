@@ -1,7 +1,7 @@
 {% extends "network/layout.html" %}
 
 {% block body %}
-    <div class="follower-box">PROFILE</div>
+    <h2 class="follower-box">PROFILE</h2>
     <div class="alert alert-warning alert-dismissible fade show" role="alert">
         <span id="message"></span>
         <button type="button" class="close" data-dismiss="alert" aria-label="Close">
@@ -24,19 +24,19 @@
     {% if user != users_profile %}
         <form action="{% url 'profile page' username %}" method="POST">
             {% if is_followed %}
-                <input type="submit" value="Following" name="unfollow_btn" class="btn following-btn" id="unfollowBtn">
+                <input type="submit" value="Following" name="unfollow_btn" class="following-btn btn btn-secondary" id="unfollowBtn">
             {% else %}
-                <input type="submit" value="Follow" name="follow_btn" class="btn follow-btn">
+                <input type="submit" value="Follow" name="follow_btn" class="follow-btn btn btn-secondary">
             {% endif %}
         </form>
     {% endif %}
     </div>
 
-    <div class="posts">
-        <h2>New Post</h2>
+    <div class="posts post">
+        <h2 class="post-text">New Post</h2>
         <form>
             <textarea id="post-text" class="edit-textarea" placeholder="What do you think about today?"></textarea>
-            <button type="submit" href="{% url 'profile page' user.username %}" id="new_post" class="btn btn-primary">Add post</button>
+            <button type="submit" href="{% url 'profile page' user.username %}" id="new_post" class="btn btn-secondary">Add post</button>
         </form>
     </div>
 

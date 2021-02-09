@@ -1,7 +1,19 @@
+.body{
+    background-color: hsla(0, 100%, 30%, 0.3);
+}
+html{
+    background-color: hsla(0, 100%, 30%, 0.3);
+}
+
 .posts{
     width: 50%;
     margin: 0 auto;
     display: block;
+}
+.profile-info{
+    text-align: center;
+    padding-top: 20px;
+    padding-bottom: 20px;
 }
 
 .post{
@@ -10,6 +22,11 @@
     padding: 5px;
     border-style: solid;
     border-color: #b3b7bb;
+    background-color: whitesmoke;
+}
+
+.new-post-index{
+    margin-top: -1px;
 }
 
 .edit-post-btn{
@@ -75,6 +92,7 @@ hr{
 
 .follower-box{
     padding-top: 10px;
+    padding-bottom: 10px;
     text-align: center;
     margin: 0 auto;
     display: block;
@@ -83,4 +101,25 @@ hr{
 .post-pic{
     width: 50px;
     margin-right: 3px;
+}
+
+.page-el{
+    display: inline;
+    border: 1px solid #dee2e6;
+    padding: 5px;
+    background-color: whitesmoke;
+}
+
+.pag{
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+.register{
+    padding: 5px;
+    border-style: solid;
+    border-color: #b3b7bb;
+    background-color: whitesmoke;
+    position: absolute;
+    top: 100px;
 }
